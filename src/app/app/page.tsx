@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Plus, ArrowRight, Play, Link2, Globe, Package, Crown, type IconComponent } from "@/components/icons";
@@ -27,12 +27,12 @@ export default function AppHome() {
   const [unstuckOpen, setUnstuckOpen] = useState(false);
   const [connectOpen, setConnectOpen] = useState(false);
   const [startProjectId, setStartProjectId] = useState<string | undefined>(undefined);
-  const [slide, setSlide] = useState(0);
   const [teammateOpen, setTeammateOpen] = useState(false);
   const [teammateUpgradeOpen, setTeammateUpgradeOpen] = useState(false);
   const [teammateEngineer, setTeammateEngineer] = useState<DirectoryEngineer | null>(null);
   const { projects } = useProjects();
   const { plan, hasPlanAtLeast } = usePlan();
+  const isGrowthPlus = hasPlanAtLeast("growth");
 
   const startSession = (projectId?: string) => {
     setStartProjectId(projectId);
@@ -44,47 +44,76 @@ export default function AppHome() {
     else setTeammateUpgradeOpen(true);
   };
 
-  const slideCount = 2;
-  const activeSlide = slide % slideCount;
+  const getUnstuckButton = isGrowthPlus ? (
+    <button
+      type="button"
+      onClick={() => startSession()}
+      className="border-ink text-ink hover:bg-ink flex items-center gap-1.5 rounded-full border px-5 py-2.5 text-[14px] font-semibold transition hover:text-bg"
+    >
+      Get unstuck
+      <ArrowRight className="size-3.5" strokeWidth={2.5} />
+    </button>
+  ) : (
+    <button
+      type="button"
+      onClick={() => startSession()}
+      className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[14px] font-semibold text-[#131313] transition hover:bg-white/90"
+    >
+      Get unstuck
+      <ArrowRight className="size-3.5" strokeWidth={2.5} />
+    </button>
+  );
 
-  useEffect(() => {
-    const timer = setInterval(() => setSlide((s) => (s + 1) % slideCount), 12000);
-    return () => clearInterval(timer);
-  }, [slideCount]);
+  const findTeammateButton = (
+    <button
+      type="button"
+      onClick={findTeammate}
+      className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:opacity-90"
+    >
+      <Crown className="size-3.5" strokeWidth={2} />
+      Find your teammate
+    </button>
+  );
 
   return (
     <div className="py-10">
       <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-[1fr_240px]">
-        <Reveal className="relative overflow-hidden rounded-xl">
-          {/* Slide 0 renders in normal flow and sets the box height; slide 1
-              is an absolutely positioned overlay that fades in on top of it,
-              so switching slides never changes the card's height. */}
-          <div
-            className={`bg-hero relative w-full overflow-hidden rounded-xl p-6 transition-opacity duration-500 sm:p-8 ${
-              activeSlide === 0 ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <TopoLines seed={12} opacityScale={0.3} />
-            <div className="relative flex h-full flex-col">
-              <div>
-                <h1 className="font-heading text-[28px] leading-tight font-semibold tracking-tight text-white sm:text-[34px]">
-                  Need a hand? Chat with an engineer.
-                </h1>
-                <p className="mt-2 text-[14.5px] font-medium text-white/70">
-                  Matched in under two minutes, draws from your monthly hours.
-                </p>
-              </div>
+        <Reveal
+          className={`relative w-full overflow-hidden rounded-xl p-6 sm:p-8 ${
+            isGrowthPlus ? "border-line bg-surface border" : "bg-hero"
+          }`}
+        >
+          <TopoLines seed={isGrowthPlus ? 13 : 12} opacityScale={isGrowthPlus ? 1 : 0.3} stroke={isGrowthPlus ? "#d4d4d8" : undefined} />
+          <div className="relative flex h-full flex-col">
+            <div>
+              <h1
+                className={`font-heading text-[28px] leading-tight font-semibold tracking-tight sm:text-[34px] ${
+                  isGrowthPlus ? "" : "text-white"
+                }`}
+              >
+                {isGrowthPlus ? "Build with one engineer" : "Need a hand? Chat with an engineer."}
+              </h1>
+              <p
+                className={`mt-2 text-[14.5px] font-medium ${
+                  isGrowthPlus ? "text-ink-2 sm:whitespace-nowrap" : "text-white/70"
+                }`}
+              >
+                {isGrowthPlus
+                  ? "Pair with an engineer who holds your context and books time with you."
+                  : "Matched in under two minutes, draws from your monthly hours."}
+              </p>
+            </div>
 
-              <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
-                <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => startSession()}
-                    className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[14px] font-semibold text-[#131313] transition hover:bg-white/90"
-                  >
-                    Get unstuck
-                    <ArrowRight className="size-3.5" strokeWidth={2.5} />
-                  </button>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              {isGrowthPlus ? (
+                <>
+                  {findTeammateButton}
+                  {getUnstuckButton}
+                </>
+              ) : (
+                <>
+                  {getUnstuckButton}
+                  {findTeammateButton}
                   <div className="flex items-center gap-2.5">
                     <div className="flex -space-x-2.5">
                       {ONLINE_ENGINEERS.slice(0, 4).map((e) => (
@@ -99,73 +128,8 @@ export default function AppHome() {
                     </div>
                     <span className="text-[13px] font-medium text-white/70">Free right now</span>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: slideCount }, (_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSlide(i)}
-                      aria-label={`Slide ${i + 1}`}
-                      className="-m-2.5 flex items-center justify-center p-2.5"
-                    >
-                      <span
-                        className={`h-1.5 rounded-full transition-all ${
-                          i === activeSlide ? "w-5 bg-white" : "w-1.5 bg-white/40"
-                        }`}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`border-line bg-surface absolute inset-0 overflow-hidden rounded-xl border p-6 transition-opacity duration-500 sm:p-8 ${
-              activeSlide === 1 ? "opacity-100" : "pointer-events-none opacity-0"
-            }`}
-          >
-            <TopoLines seed={13} opacityScale={1} stroke="#d4d4d8" />
-            <div className="relative flex h-full flex-col">
-              <div>
-                <h2 className="font-heading text-[28px] leading-tight font-semibold tracking-tight sm:text-[34px]">
-                  Build with one engineer
-                </h2>
-                <p className="text-ink-2 mt-2 text-[14.5px] font-medium sm:whitespace-nowrap">
-                  Pair with an engineer who holds your context and books time with you.
-                </p>
-              </div>
-
-              <div className="mt-6 flex flex-wrap items-end justify-between gap-3">
-                <button
-                  type="button"
-                  onClick={findTeammate}
-                  className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:opacity-90"
-                >
-                  <Crown className="size-3.5" strokeWidth={2} />
-                  Find your teammate
-                </button>
-
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: slideCount }, (_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSlide(i)}
-                      aria-label={`Slide ${i + 1}`}
-                      className="-m-2.5 flex items-center justify-center p-2.5"
-                    >
-                      <span
-                        className={`h-1.5 rounded-full transition-all ${
-                          i === activeSlide ? "bg-ink w-5" : "bg-ink-3/50 w-1.5"
-                        }`}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </Reveal>
