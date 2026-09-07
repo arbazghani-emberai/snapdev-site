@@ -1,0 +1,371 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  /*
+    Every heading on the site uses `font-heading`, so swapping the display
+    typeface is a one-line change here. `--font-display` is set in layout.tsx;
+    it falls back to the body font until a display face is wired up.
+  */
+  --font-heading: var(--font-display, var(--font-inter-tight)), system-ui, sans-serif;
+
+  /* Ink / surface */
+  --color-ink: #131313;
+  --color-ink-2: #525252;
+  --color-ink-3: #a3a3a3;
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-2: #f5f7fa;
+  --color-line: #e5e5e5;
+  --color-line-2: #f2f2f2;
+  --color-scrim: #13131370;
+
+  /* Brand */
+  --color-brand: #3d6df2;
+  --color-brand-ink: #2f56c9;
+  --color-brand-wash: #eaf1fd;
+  --color-accent: #ff9738;
+
+  /* Dashboard hero card - stays ink-black in light mode; see .dark override */
+  --color-hero: #131313;
+
+  /* Status */
+  --color-online: #10b981;
+  --color-star: #f6a63c;
+  --color-danger: #dc2626;
+  --color-danger-wash: #fef2f2;
+  --color-unread: #fa3e3e;
+
+  /* Section washes */
+  --color-wash-blue: #d8e9fa;
+  --color-wash-blue-soft: #e8f2fb;
+  --color-wash-cream: #faf4ea;
+  --color-wash-cream-soft: #fdfaf4;
+  --color-wash-pink: #faeff2;
+  --color-wash-pink-soft: #fdf7f8;
+
+  /* Decorative chips + icon tints */
+  --color-chip-gold: #f6a04c;
+  --color-chip-pink: #ef6a86;
+  --color-chip-purple: #b46ef0;
+  --color-tint-mint: #9fe3d4;
+  --color-tint-periwinkle: #a9c4f8;
+  --color-tint-purple: #c9a5f0;
+  --color-tint-sand: #f6c98f;
+
+  /* Radii, the rounded-everything look */
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+
+}
+
+/*
+  Dark palette for the /app shell. Scoped to a `.dark` class on a wrapper
+  div (see ThemeProvider) rather than <html>, so it never reaches the
+  marketing site - those pages use literal wash/chip colors that aren't
+  dark-aware and would go illegible if `--color-ink` flipped globally.
+*/
+.dark {
+  --color-ink: #f2f2f2;
+  --color-ink-2: #a8a8a8;
+  --color-ink-3: #71717a;
+  --color-bg: #101114;
+  --color-surface: #17181c;
+  --color-surface-2: #1f2025;
+  --color-line: #2c2d33;
+  --color-line-2: #24252a;
+  --color-scrim: #00000080;
+
+  --color-brand: #5c85ff;
+  --color-brand-ink: #89a8ff;
+  --color-brand-wash: #1a2440;
+
+  --color-online: #34d399;
+  --color-star: #f6a63c;
+  --color-danger: #f87171;
+  --color-danger-wash: #3a1618;
+
+  /* Dark mode swaps the hero card from black to a darker brand blue, since
+     --color-ink itself flips to near-white and would wash the card out. */
+  --color-hero: #2f56c9;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------------------------------------
+   Service card UI animations
+   Mock product UI that plays once when its card scrolls into view.
+   Elements start hidden; the .anim-* classes are only attached
+   after the card is in view, so nothing animates off-screen.
+   --------------------------------------------------------------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px) rotate(var(--rot, 0deg));
+  }
+  65% {
+    transform: scale(1.05) translateY(0) rotate(var(--rot, 0deg));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--rot, 0deg));
+  }
+}
+
+@keyframes bar-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--bar, 100%);
+  }
+}
+
+@keyframes line-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rot, 0deg));
+  }
+  50% {
+    transform: translateY(-5px) rotate(var(--rot, 0deg));
+  }
+}
+
+/* Pre-animation resting state, so nothing flashes before it plays. */
+.anim-hidden {
+  opacity: 0;
+}
+
+.anim-rise {
+  animation: rise-in 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+.anim-pop {
+  animation: pop-in 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+.anim-bar {
+  animation: bar-fill 1.4s cubic-bezier(0.35, 0.9, 0.3, 1) both;
+}
+
+.anim-type {
+  animation: line-reveal 0.6s steps(24, end) both;
+}
+
+.anim-caret {
+  animation: caret-blink 1s step-end infinite;
+}
+
+/* Layered on top of an entrance animation via a second name. */
+.anim-float {
+  animation: float-soft 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-hidden,
+  .anim-rise,
+  .anim-pop,
+  .anim-bar,
+  .anim-type,
+  .anim-caret,
+  .anim-float {
+    animation: none;
+    opacity: 1;
+    clip-path: none;
+    width: var(--bar, auto);
+  }
+}
+
+/* ---------------------------------------------------------------
+   Hero gradient
+   Soft colour blobs wandering on independent, non-repeating cycles
+   so the background never settles into a static image. Pure CSS, so
+   it costs no JS and cannot desync between server and client.
+
+   The paths use four waypoints rather than a simple there-and-back,
+   so the blobs keep moving instead of easing to a stop mid-cycle.
+   --------------------------------------------------------------- */
+
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: translate3d(42%, 18%, 0) scale(1.3);
+  }
+  50% {
+    transform: translate3d(16%, 46%, 0) scale(0.82);
+  }
+  75% {
+    transform: translate3d(-30%, 22%, 0) scale(1.16);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+  25% {
+    transform: translate3d(-38%, 26%, 0) scale(0.84);
+  }
+  50% {
+    transform: translate3d(-14%, -30%, 0) scale(1.32);
+  }
+  75% {
+    transform: translate3d(24%, 12%, 0) scale(0.95);
+  }
+}
+
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  will-change: transform;
+}
+
+.hero-blob-a {
+  animation: drift-a 15s ease-in-out infinite;
+}
+.hero-blob-b {
+  animation: drift-b 19s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------
+   App shell, modal + menu entrances
+   --------------------------------------------------------------- */
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-modal-in {
+  animation: modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-drawer-in {
+  animation: drawer-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Re-keyed per wizard step, so each panel slides in as you advance. */
+.animate-step-in {
+  animation: step-in 0.24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-menu-in {
+  animation: menu-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes session-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-session-in {
+  animation: session-in 0.18s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-in,
+  .animate-menu-in,
+  .animate-drawer-in,
+  .animate-step-in,
+  .animate-session-in {
+    animation: none;
+  }
+
+  .hero-blob-a,
+  .hero-blob-b {
+    animation: none;
+  }
+}

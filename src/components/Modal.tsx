@@ -1,0 +1,59 @@
+"use client";
+
+import { useEffect } from "react";
+import { X } from "@/components/icons";
+
+export default function Modal({
+  open,
+  onClose,
+  children,
+  className = "max-w-md",
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  useEffect(() => {
+    if (!open) return;
+
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center p-4">
+      <button
+        type="button"
+        aria-label="Close"
+        onClick={onClose}
+        className="bg-scrim absolute inset-0 cursor-default"
+      />
+      <div
+        role="dialog"
+        aria-modal="true"
+        className={`bg-surface animate-modal-in relative w-full rounded-xl p-7 shadow-2xl sm:p-8 ${className}`}
+      >
+        <button
+          type="button"
+          aria-label="Close"
+          onClick={onClose}
+          className="text-ink-3 hover:bg-surface-2 hover:text-ink absolute top-5 right-5 grid size-9 place-items-center rounded-full transition"
+        >
+          <X className="size-4" strokeWidth={2} />
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+}
