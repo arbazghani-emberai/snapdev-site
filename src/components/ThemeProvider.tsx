@@ -55,3 +55,11 @@ export function useTheme() {
   if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
   return ctx;
 }
+
+/** Same as useTheme, but for components (e.g. modals) also mounted on the
+ *  marketing site, which sits outside this provider - "light" there instead
+ *  of throwing, since the marketing site has no dark mode of its own. */
+export function useOptionalTheme() {
+  const ctx = useContext(ThemeContext);
+  return ctx?.theme ?? "light";
+}

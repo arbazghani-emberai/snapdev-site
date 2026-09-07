@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "@/components/icons";
-import { useTheme } from "./ThemeProvider";
+import { useOptionalTheme } from "./ThemeProvider";
 
 export default function Modal({
   open,
@@ -16,7 +16,7 @@ export default function Modal({
   children: React.ReactNode;
   className?: string;
 }) {
-  const { theme } = useTheme();
+  const theme = useOptionalTheme();
 
   useEffect(() => {
     if (!open) return;
