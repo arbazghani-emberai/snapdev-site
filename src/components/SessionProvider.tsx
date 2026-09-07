@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
 import type { Project } from "@/data/app";
 
@@ -146,7 +146,6 @@ export function claimGuestSession(): boolean {
 }
 
 function restoreGuestSession(): ActiveSession | null {
-  if (typeof window === "undefined") return null;
   try {
     const raw = sessionStorage.getItem(GUEST_SESSION_STORAGE_KEY);
     return raw ? (JSON.parse(raw) as ActiveSession) : null;
@@ -156,16 +155,30 @@ function restoreGuestSession(): ActiveSession | null {
 }
 
 export default function SessionProvider({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<ActiveSession | null>(restoreGuestSession);
+  // Starts null on both server and client so the first client render still
+  // matches the server-rendered HTML - sessionStorage is only readable in
+  // the browser, so reading it during the initial render (e.g. as a lazy
+  // useState initializer) would mismatch and fail hydration. The restore
+  // below happens a tick later instead, once mounted.
+  const [session, setSession] = useState<ActiveSession | null>(null);
   const [threads, setThreads] = useState<Thread[]>(seedThreads);
   const [summary, setSummary] = useState<SessionSummary | null>(null);
+  const restoredRef = useRef(false);
 
   // Keep a snapshot around only while a guest is mid-session, so it survives
   // the /signup or /login detour (see GUEST_SESSION_STORAGE_KEY above).
   // Anything else - no session, or one that's no longer a guest's - is
   // cleared so a stale snapshot never resurfaces later.
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (!restoredRef.current) {
+      restoredRef.current = true;
+      const restored = restoreGuestSession();
+      if (restored) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time sync from sessionStorage on mount, not derivable from props/state
+        setSession(restored);
+        return;
+      }
+    }
     if (session?.guest) {
       sessionStorage.setItem(GUEST_SESSION_STORAGE_KEY, JSON.stringify(session));
     } else {

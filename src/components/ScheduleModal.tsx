@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Clock, Monitor, Globe, Repeat } from "@/components/icons";
 import Modal from "./Modal";
@@ -101,7 +102,7 @@ export default function ScheduleModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
-  if (!engineer) return null;
+  if (!engineer || typeof document === "undefined") return null;
 
   const effectiveLength = fixedLength ?? length;
 
@@ -173,7 +174,10 @@ export default function ScheduleModal({
     );
   }
 
-  return (
+  // Portaled straight to <body> - nesting this under a sticky, backdrop-blurred
+  // header (as on /app/inbox) confuses some browsers' compositing order, and
+  // the header ends up painting above the backdrop despite its lower z-index.
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-6">
       <button
         type="button"
@@ -372,6 +376,7 @@ export default function ScheduleModal({
         </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

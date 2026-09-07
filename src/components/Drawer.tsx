@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X } from "./icons";
 
 /**
@@ -33,9 +34,12 @@ export default function Drawer({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
+  // Portaled straight to <body> - nesting this under a sticky, backdrop-blurred
+  // header (as on /app/inbox) confuses some browsers' compositing order, and
+  // the header ends up painting above the backdrop despite its lower z-index.
+  return createPortal(
     <div className="fixed inset-0 z-50">
       <button
         type="button"
@@ -59,6 +63,7 @@ export default function Drawer({
         </button>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
