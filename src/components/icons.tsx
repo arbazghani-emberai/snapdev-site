@@ -238,6 +238,10 @@ export function SlidersHorizontal({ className, strokeWidth = 1.75 }: IconProps) 
   );
 }
 
+export const StarOutline = outline([
+  "M12 2.5 14.9 9l7.1.6-5.4 4.6L18.2 21 12 17.3 5.8 21l1.6-6.8L2 9.6 9.1 9z",
+]);
+
 /** Filled shapes - Vuesax ships outline-only, so these are hand-drawn solids. */
 export function Zap({ className }: IconProps) {
   return (

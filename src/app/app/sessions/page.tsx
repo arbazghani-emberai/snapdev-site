@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Star } from "@/components/icons";
+import { Star, StarOutline, Phone } from "@/components/icons";
 import Reveal from "@/components/Reveal";
 import ScheduleModal from "@/components/ScheduleModal";
 import SessionRowMenu from "@/components/SessionRowMenu";
@@ -136,7 +136,26 @@ export default function SessionsPage() {
                     {s.engineer.name} · {s.date} · {s.duration}
                   </div>
                 </div>
-                <SessionRowMenu items={["Book again", "Give a review"]} onAction={handlePastAction(s)} />
+                <div className="flex shrink-0 items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handlePastAction(s)("Book again")}
+                    aria-label="Book again"
+                    title="Book again"
+                    className="text-ink-3 hover:bg-surface-2 hover:text-ink grid size-8 place-items-center rounded-full transition"
+                  >
+                    <Phone className="size-4" strokeWidth={1.75} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handlePastAction(s)("Give a review")}
+                    aria-label="Give a review"
+                    title="Give a review"
+                    className="text-ink-3 hover:bg-surface-2 hover:text-ink grid size-8 place-items-center rounded-full transition"
+                  >
+                    <StarOutline className="size-4" strokeWidth={1.75} />
+                  </button>
+                </div>
               </div>
 
               {givenRatings[s.id] && (
