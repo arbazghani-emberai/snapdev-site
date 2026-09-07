@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { House, Users, MessageSquare, Calendar, Crown, Menu, X, Sun, Moon, Lock, type IconComponent } from "@/components/icons";
 import Wordmark from "./Wordmark";
 import AccountMenu from "./AccountMenu";
+import NotificationsMenu from "./NotificationsMenu";
 import UpgradeRequiredModal from "./UpgradeRequiredModal";
 import { useTheme } from "./ThemeProvider";
 import { usePlan } from "./PlanProvider";
@@ -165,6 +166,7 @@ export default function AppHeader() {
               </Link>
             </>
           )}
+          {!isGuest && <NotificationsMenu />}
           <button
             type="button"
             onClick={toggleTheme}
