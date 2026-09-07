@@ -1,8 +1,16 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
 import type { Project } from "@/data/app";
+
+/**
+ * A guest's live session lives only in this provider's React state, which
+ * unmounts when they leave /app for /signup or /login. Stashing a snapshot
+ * here lets those pages hand the conversation back once the account exists -
+ * see the matching read in signup/login's submit handlers.
+ */
+export const GUEST_SESSION_STORAGE_KEY = "snapdev_guest_session";
 
 export type TextMessage = { id: string; role: "you" | "engineer"; text: string };
 export type SessionMessage = TextMessage | { id: string; role: "share-card" } | { id: string; role: "call-card" };
@@ -118,10 +126,52 @@ function seedThreads(): Thread[] {
 }
 
 /** Client-only "live session" state backing the full-screen chat window. */
+/**
+ * Called from the signup/login submit handlers once the (mock) account is
+ * created - flips the stashed guest session, if any, to a full one so it
+ * comes back unlocked. Returns whether there was one, so the caller can
+ * decide where to send the user next.
+ */
+export function claimGuestSession(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const raw = sessionStorage.getItem(GUEST_SESSION_STORAGE_KEY);
+    if (!raw) return false;
+    const restored = JSON.parse(raw) as ActiveSession;
+    sessionStorage.setItem(GUEST_SESSION_STORAGE_KEY, JSON.stringify({ ...restored, guest: false }));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function restoreGuestSession(): ActiveSession | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(GUEST_SESSION_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as ActiveSession) : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function SessionProvider({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<ActiveSession | null>(null);
+  const [session, setSession] = useState<ActiveSession | null>(restoreGuestSession);
   const [threads, setThreads] = useState<Thread[]>(seedThreads);
   const [summary, setSummary] = useState<SessionSummary | null>(null);
+
+  // Keep a snapshot around only while a guest is mid-session, so it survives
+  // the /signup or /login detour (see GUEST_SESSION_STORAGE_KEY above).
+  // Anything else - no session, or one that's no longer a guest's - is
+  // cleared so a stale snapshot never resurfaces later.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (session?.guest) {
+      sessionStorage.setItem(GUEST_SESSION_STORAGE_KEY, JSON.stringify(session));
+    } else {
+      sessionStorage.removeItem(GUEST_SESSION_STORAGE_KEY);
+    }
+  }, [session]);
 
   const startSession: SessionContextValue["startSession"] = (engineer, project, problem, opts) => {
     // A pending (not-yet-signed-up) session shows only what the visitor typed -

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleLogo from "@/components/GoogleLogo";
 import GithubLogo from "@/components/GithubLogo";
+import { claimGuestSession } from "@/components/SessionProvider";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function SignupPage() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          router.push("/app");
+          router.push(claimGuestSession() ? "/app/inbox" : "/app");
         }}
         className="flex flex-col gap-4"
       >
