@@ -87,6 +87,10 @@ function InboxPageInner() {
   // list is just "is there a live conversation right now or not".
   const [selected, setSelected] = useState(!!session);
   const [scheduleEngineer, setScheduleEngineer] = useState<Engineer | null>(null);
+  // Set only when the "Book a call" card's own 30/60-min shortcut opened the
+  // modal - locks that length and reports the confirmed booking back to the
+  // followup card, instead of the general "Book a call" flow doing either.
+  const [followupLength, setFollowupLength] = useState<30 | 60 | null>(null);
   const [connectOpen, setConnectOpen] = useState(false);
   const projectCountAtOpenRef = useRef(0);
 
@@ -758,14 +762,20 @@ function InboxPageInner() {
                   <div className="flex gap-1.5">
                     <button
                       type="button"
-                      onClick={() => bookFollowup(30)}
+                      onClick={() => {
+                        setFollowupLength(30);
+                        setScheduleEngineer(session.engineer);
+                      }}
                       className="bg-surface-2 border-line hover:border-ink flex-1 rounded-lg border py-2 text-[12.5px] font-semibold transition"
                     >
                       30 min
                     </button>
                     <button
                       type="button"
-                      onClick={() => bookFollowup(60)}
+                      onClick={() => {
+                        setFollowupLength(60);
+                        setScheduleEngineer(session.engineer);
+                      }}
                       className="bg-surface-2 border-line hover:border-ink flex-1 rounded-lg border py-2 text-[12.5px] font-semibold transition"
                     >
                       60 min
@@ -785,7 +795,15 @@ function InboxPageInner() {
         </div>
       )}
 
-      <ScheduleModal engineer={scheduleEngineer} onClose={() => setScheduleEngineer(null)} />
+      <ScheduleModal
+        engineer={scheduleEngineer}
+        fixedLength={followupLength ?? undefined}
+        onConfirmed={followupLength ? (len) => bookFollowup(len as 30 | 60) : undefined}
+        onClose={() => {
+          setScheduleEngineer(null);
+          setFollowupLength(null);
+        }}
+      />
       <ConnectProjectDrawer open={connectOpen} onClose={closeConnectDrawer} />
     </div>
   );

@@ -44,6 +44,7 @@ export default function ScheduleModal({
   initialDate,
   initialTime,
   fixedLength,
+  onConfirmed,
   onClose,
 }: {
   engineer: Engineer | null;
@@ -53,6 +54,8 @@ export default function ScheduleModal({
   /** Locks the session to a fixed length (e.g. a free 20-min intro) and hides
    *  the length/repeat controls, which don't apply to a one-off intro call. */
   fixedLength?: number;
+  /** Called once the user actually confirms a date/time, with the booked length. */
+  onConfirmed?: (length: number) => void;
   onClose: () => void;
 }) {
   const [length, setLength] = useState<30 | 60 | 90>(30);
@@ -367,7 +370,11 @@ export default function ScheduleModal({
             <button
               type="button"
               disabled={!canConfirm}
-              onClick={() => canConfirm && setConfirmed(true)}
+              onClick={() => {
+                if (!canConfirm) return;
+                setConfirmed(true);
+                onConfirmed?.(effectiveLength);
+              }}
               className="bg-brand hover:bg-brand-ink disabled:bg-surface-2 disabled:text-ink-3 flex-1 rounded-full py-2.5 text-[13.5px] font-semibold text-white transition disabled:cursor-not-allowed"
             >
               {canConfirm ? "Confirm session" : sel ? "Pick a time" : "Pick a date"}
