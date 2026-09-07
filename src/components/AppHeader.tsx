@@ -9,6 +9,7 @@ import AccountMenu from "./AccountMenu";
 import UpgradeRequiredModal from "./UpgradeRequiredModal";
 import { useTheme } from "./ThemeProvider";
 import { usePlan } from "./PlanProvider";
+import { useSession } from "./SessionProvider";
 
 const NAV: { label: string; href: string; icon: IconComponent }[] = [
   { label: "Home", href: "/app", icon: House },
@@ -27,11 +28,17 @@ export default function AppHeader() {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { plan, hasPlanAtLeast } = usePlan();
+  const { session } = useSession();
+  const isGuest = !!session?.guest;
 
   // Browsing engineers is a Growth-plan-and-up feature - below that, the nav
   // item stays visible (with a lock badge) but routes to an upgrade prompt
   // instead of the page.
   const isEngineersLocked = (href: string) => href === "/app/engineers" && !hasPlanAtLeast("growth");
+
+  // A visitor who hasn't created an account yet can only use Messages (their
+  // live conversation) - the rest of the app is out of reach until they do.
+  const isNavLocked = (href: string) => isGuest && href !== "/app/inbox";
 
   // Close the drawer on a route change (reset during render, not an effect,
   // per React's "adjusting state when props change" pattern) - covers
@@ -77,6 +84,21 @@ export default function AppHeader() {
           {NAV.map((item) => {
             const active = isActive(pathname, item.href);
             const locked = isEngineersLocked(item.href);
+            const guestLocked = isNavLocked(item.href);
+
+            if (guestLocked) {
+              return (
+                <span
+                  key={item.href}
+                  aria-disabled="true"
+                  className="text-ink-3 flex shrink-0 cursor-not-allowed items-center gap-1.5 rounded-full px-3.5 py-2 text-[13.5px] font-semibold opacity-50"
+                >
+                  <item.icon className="size-3.5" strokeWidth={2} />
+                  {item.label}
+                </span>
+              );
+            }
+
             return (
               <Link
                 key={item.href}
@@ -107,23 +129,42 @@ export default function AppHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2.5">
-          <Link
-            href="/app/settings?tab=plan"
-            className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 lg:flex"
-          >
-            <Crown className="size-3.5" strokeWidth={2} />
-            Upgrade plan
-          </Link>
-          <Link
-            href="/app/settings?tab=plan"
-            className="border-line hover:bg-surface-2 text-ink-2 hidden items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-semibold lg:flex"
-          >
-            <span className="text-ink">{plan.name}</span>
-            <span aria-hidden="true" className="text-ink-3">
-              ·
-            </span>
-            {plan.hoursPerMonth} hr left
-          </Link>
+          {isGuest ? (
+            <>
+              <Link
+                href="/login"
+                className="border-line hover:bg-surface-2 hidden items-center rounded-full border px-4 py-2 text-[13px] font-semibold lg:flex"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                className="bg-ink hover:bg-ink/85 hidden items-center rounded-full px-4 py-2 text-[13px] font-semibold text-bg transition lg:flex"
+              >
+                Create account
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/app/settings?tab=plan"
+                className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 lg:flex"
+              >
+                <Crown className="size-3.5" strokeWidth={2} />
+                Upgrade plan
+              </Link>
+              <Link
+                href="/app/settings?tab=plan"
+                className="border-line hover:bg-surface-2 text-ink-2 hidden items-center gap-1.5 rounded-full border px-4 py-2 text-[13px] font-semibold lg:flex"
+              >
+                <span className="text-ink">{plan.name}</span>
+                <span aria-hidden="true" className="text-ink-3">
+                  ·
+                </span>
+                {plan.hoursPerMonth} hr left
+              </Link>
+            </>
+          )}
           <button
             type="button"
             onClick={toggleTheme}
@@ -136,7 +177,7 @@ export default function AppHeader() {
               <Moon className="size-4" strokeWidth={2} />
             )}
           </button>
-          <AccountMenu />
+          {!isGuest && <AccountMenu />}
 
           {/* Mobile: opens the side nav drawer. */}
           <button
@@ -186,6 +227,21 @@ export default function AppHeader() {
         {NAV.map((item) => {
           const active = isActive(pathname, item.href);
           const locked = isEngineersLocked(item.href);
+          const guestLocked = isNavLocked(item.href);
+
+          if (guestLocked) {
+            return (
+              <span
+                key={item.href}
+                aria-disabled="true"
+                className="text-ink-3 flex cursor-not-allowed items-center gap-2.5 rounded-lg px-3.5 py-3 text-[15px] font-semibold opacity-50"
+              >
+                <item.icon className="size-4" strokeWidth={2} />
+                {item.label}
+              </span>
+            );
+          }
+
           return (
             <Link
               key={item.href}
@@ -224,19 +280,38 @@ export default function AppHeader() {
 
         <div className="bg-line my-2 h-px" />
 
-        <Link
-          href="/app/settings?tab=plan"
-          className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2.5 text-[13.5px] font-semibold text-white transition hover:opacity-90"
-        >
-          <Crown className="size-3.5" strokeWidth={2} />
-          Upgrade plan
-        </Link>
-        <Link
-          href="/app/settings?tab=plan"
-          className="border-line hover:bg-surface-2 mt-1.5 rounded-full border px-4 py-2.5 text-center text-[13.5px] font-semibold transition"
-        >
-          {plan.name} · {plan.hoursPerMonth} hr left
-        </Link>
+        {isGuest ? (
+          <>
+            <Link
+              href="/signup"
+              className="bg-ink hover:bg-ink/85 flex items-center justify-center rounded-full px-4 py-2.5 text-center text-[13.5px] font-semibold text-bg transition"
+            >
+              Create account
+            </Link>
+            <Link
+              href="/login"
+              className="border-line hover:bg-surface-2 mt-1.5 rounded-full border px-4 py-2.5 text-center text-[13.5px] font-semibold transition"
+            >
+              Log in
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              href="/app/settings?tab=plan"
+              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2.5 text-[13.5px] font-semibold text-white transition hover:opacity-90"
+            >
+              <Crown className="size-3.5" strokeWidth={2} />
+              Upgrade plan
+            </Link>
+            <Link
+              href="/app/settings?tab=plan"
+              className="border-line hover:bg-surface-2 mt-1.5 rounded-full border px-4 py-2.5 text-center text-[13.5px] font-semibold transition"
+            >
+              {plan.name} · {plan.hoursPerMonth} hr left
+            </Link>
+          </>
+        )}
       </div>
 
       <UpgradeRequiredModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />

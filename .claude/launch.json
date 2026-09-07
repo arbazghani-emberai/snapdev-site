@@ -2,10 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "snapdev-site",
+      "name": "snapdev-site-chat-v2",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3000
+      "port": 3100,
+      "autoPort": true
     }
   ]
 }

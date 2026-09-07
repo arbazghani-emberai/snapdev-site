@@ -28,6 +28,8 @@ export type ActiveSession = {
   notes: SessionNote[];
   followup: SessionFollowup | null;
   sharedItems: SharedItem[];
+  /** Visitor hasn't created an account yet - stays true for the session's whole lifetime. */
+  guest: boolean;
 };
 
 /** A finished session's transcript, kept around for the Messages page. */
@@ -148,6 +150,7 @@ export default function SessionProvider({ children }: { children: React.ReactNod
       notes: [],
       followup: null,
       sharedItems: [],
+      guest: !!opts?.pending,
     });
   };
 

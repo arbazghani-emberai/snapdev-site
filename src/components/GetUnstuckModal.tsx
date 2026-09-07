@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Bug,
   Compass,
@@ -120,6 +121,7 @@ export default function GetUnstuckModal({
   const [message, setMessage] = useState("");
   const { projects } = useProjects();
   const { startSession } = useSession();
+  const router = useRouter();
 
   // Re-sync the preselected project every time the modal is opened, since
   // this instance stays mounted across opens (Modal just renders null while
@@ -142,14 +144,14 @@ export default function GetUnstuckModal({
     }, 200);
   };
 
-  // The full-screen chat session shows its own brief "connecting" beat, so
-  // this just hands off to it immediately with the matched engineer and
-  // whatever project was selected.
+  // Hands off to the Messages screen, where the live conversation actually
+  // lives - there's no separate full-screen chat surface anymore.
   const submit = () => {
     const engineer = initialEngineer ?? ONLINE_ENGINEERS[0];
     const selectedProject = projects.find((p) => p.id === project);
     startSession(engineer, selectedProject, message);
     close();
+    router.push("/app/inbox");
   };
 
   return (
