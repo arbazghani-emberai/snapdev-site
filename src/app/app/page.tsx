@@ -44,16 +44,7 @@ export default function AppHome() {
     else setTeammateUpgradeOpen(true);
   };
 
-  const getUnstuckButton = isGrowthPlus ? (
-    <button
-      type="button"
-      onClick={() => startSession()}
-      className="border-ink text-ink hover:bg-ink flex items-center gap-1.5 rounded-full border px-5 py-2.5 text-[14px] font-semibold transition hover:text-bg"
-    >
-      Get unstuck
-      <ArrowRight className="size-3.5" strokeWidth={2.5} />
-    </button>
-  ) : (
+  const getUnstuckButton = (
     <button
       type="button"
       onClick={() => startSession()}
@@ -78,26 +69,14 @@ export default function AppHome() {
   return (
     <div className="py-10">
       <div className="grid grid-cols-1 gap-2.5 lg:grid-cols-[1fr_240px]">
-        <Reveal
-          className={`relative w-full overflow-hidden rounded-xl p-6 sm:p-8 ${
-            isGrowthPlus ? "border-line bg-surface border" : "bg-hero"
-          }`}
-        >
-          <TopoLines seed={isGrowthPlus ? 13 : 12} opacityScale={isGrowthPlus ? 1 : 0.3} stroke={isGrowthPlus ? "#d4d4d8" : undefined} />
+        <Reveal className="bg-hero relative w-full overflow-hidden rounded-xl p-6 sm:p-8">
+          <TopoLines seed={12} opacityScale={0.3} />
           <div className="relative flex h-full flex-col">
             <div>
-              <h1
-                className={`font-heading text-[28px] leading-tight font-semibold tracking-tight sm:text-[34px] ${
-                  isGrowthPlus ? "" : "text-white"
-                }`}
-              >
+              <h1 className="font-heading text-[28px] leading-tight font-semibold tracking-tight text-white sm:text-[34px]">
                 {isGrowthPlus ? "Build with one engineer" : "Need a hand? Chat with an engineer."}
               </h1>
-              <p
-                className={`mt-2 text-[14.5px] font-medium ${
-                  isGrowthPlus ? "text-ink-2 sm:whitespace-nowrap" : "text-white/70"
-                }`}
-              >
+              <p className="mt-2 text-[14.5px] font-medium text-white/70 sm:whitespace-nowrap">
                 {isGrowthPlus
                   ? "Pair with an engineer who holds your context and books time with you."
                   : "Matched in under two minutes, draws from your monthly hours."}
