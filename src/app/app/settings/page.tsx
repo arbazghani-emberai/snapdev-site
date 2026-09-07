@@ -293,10 +293,24 @@ function PlanTab() {
   const [purchasedPack, setPurchasedPack] = useState<string | null>(null);
   const [switchTarget, setSwitchTarget] = useState<PlanTier | null>(null);
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [customHours, setCustomHours] = useState("");
 
   const buyPack = (id: string) => {
     setPurchasedPack(id);
     setTimeout(() => setPurchasedPack((prev) => (prev === id ? null : prev)), 1800);
+  };
+
+  // Mock per-hour rate for a custom top-up, priced a bit above the smallest
+  // preset pack's rate since it's the least-committed option.
+  const CUSTOM_HOUR_RATE = 12;
+  const customHoursNum = Math.max(0, Math.floor(Number(customHours) || 0));
+  const customPrice = customHoursNum * CUSTOM_HOUR_RATE;
+
+  const buyCustomHours = () => {
+    if (customHoursNum <= 0) return;
+    setPurchasedPack("custom");
+    setCustomHours("");
+    setTimeout(() => setPurchasedPack((prev) => (prev === "custom" ? null : prev)), 1800);
   };
 
   return (
@@ -438,6 +452,50 @@ function PlanTab() {
               </div>
             );
           })}
+        </div>
+
+        <div className="border-line mt-3 flex flex-wrap items-center justify-between gap-3 rounded-md border p-4">
+          <div className="min-w-0">
+            <div className="text-[14.5px] font-semibold">Custom amount</div>
+            <div className="mt-1.5 flex items-center gap-2">
+              <input
+                type="number"
+                min={1}
+                step={1}
+                inputMode="numeric"
+                value={customHours}
+                onChange={(e) => setCustomHours(e.target.value)}
+                placeholder="Hours"
+                aria-label="Custom hours"
+                className="border-line focus:border-ink w-20 rounded-sm border px-2.5 py-1.5 text-[13px] outline-none transition"
+              />
+              <span className="text-ink-2 text-[12.5px]">
+                hrs{customHoursNum > 0 ? ` · $${customPrice} one-time` : ""}
+              </span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={buyCustomHours}
+            disabled={customHoursNum <= 0}
+            className={`flex shrink-0 items-center gap-1 rounded-full border px-3.5 py-2 text-[12.5px] font-semibold transition ${
+              purchasedPack === "custom"
+                ? "border-online bg-online/10 text-online"
+                : "border-line hover:border-ink text-ink disabled:hover:border-line disabled:cursor-not-allowed disabled:opacity-50"
+            }`}
+          >
+            {purchasedPack === "custom" ? (
+              <>
+                <Check className="size-3" strokeWidth={3} />
+                Added
+              </>
+            ) : (
+              <>
+                <Plus className="size-3" strokeWidth={2.5} />
+                Buy
+              </>
+            )}
+          </button>
         </div>
       </div>
 
