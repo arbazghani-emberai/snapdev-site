@@ -12,7 +12,6 @@ import {
   ArrowLeft,
   ArrowUp,
   Paperclip,
-  Mic,
   Link2,
   ImageIcon,
   Code,
@@ -92,7 +91,6 @@ function InboxPageInner() {
   const projectCountAtOpenRef = useRef(0);
 
   const [draft, setDraft] = useState("");
-  const [listening, setListening] = useState(false);
   const [attachMenuOpen, setAttachMenuOpen] = useState(false);
   const [snippetMode, setSnippetMode] = useState(false);
   const [snippetDraft, setSnippetDraft] = useState("");
@@ -160,10 +158,6 @@ function InboxPageInner() {
     if (session && projects.length > projectCountAtOpenRef.current) attachProject(projects[0]);
   };
 
-  const toggleMic = () => {
-    setListening(true);
-    setTimeout(() => setListening(false), 1600);
-  };
   const openFilePicker = (kind: "file" | "image") => {
     const input = fileInputRef.current;
     if (input) {
@@ -573,26 +567,14 @@ function InboxPageInner() {
                         className="border-line focus:border-brand bg-surface w-full rounded-full border py-3.5 pr-14 pl-11 text-[16px] outline-none transition sm:text-[14.5px]"
                       />
 
-                      {draft.trim() ? (
-                        <button
-                          type="submit"
-                          aria-label="Send"
-                          className="bg-ink hover:bg-ink/85 absolute top-1/2 right-1.5 grid size-9 -translate-y-1/2 place-items-center rounded-full text-bg transition"
-                        >
-                          <ArrowUp className="size-4" strokeWidth={2} />
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={toggleMic}
-                          aria-label="Voice input"
-                          className={`absolute top-1/2 right-1.5 grid size-9 -translate-y-1/2 place-items-center rounded-full transition ${
-                            listening ? "bg-brand text-white" : "text-ink-2 hover:bg-surface-2 hover:text-ink"
-                          }`}
-                        >
-                          <Mic className="size-4" strokeWidth={1.75} />
-                        </button>
-                      )}
+                      <button
+                        type="submit"
+                        aria-label="Send"
+                        disabled={!draft.trim()}
+                        className="bg-ink hover:bg-ink/85 disabled:bg-surface-2 disabled:text-ink-3 absolute top-1/2 right-1.5 grid size-9 -translate-y-1/2 place-items-center rounded-full text-bg transition disabled:cursor-not-allowed"
+                      >
+                        <ArrowUp className="size-4" strokeWidth={2} />
+                      </button>
                     </div>
                   </form>
                 )}
