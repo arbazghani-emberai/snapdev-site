@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, Clock, Monitor, Globe, Repeat } from "@/components/icons";
 import Modal from "./Modal";
+import { useTheme } from "./ThemeProvider";
 import type { Engineer } from "@/data/engineers";
 
 const LENGTHS: { key: 30 | 60 | 90; label: string }[] = [
@@ -65,6 +66,7 @@ export default function ScheduleModal({
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
+  const { theme } = useTheme();
 
   // Reset during render (not an effect) whenever a different engineer opens -
   // this instance stays mounted across opens/closes rather than remounting.
@@ -181,7 +183,9 @@ export default function ScheduleModal({
   // header (as on /app/inbox) confuses some browsers' compositing order, and
   // the header ends up painting above the backdrop despite its lower z-index.
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-6">
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-6 ${theme === "dark" ? "dark" : ""}`}
+    >
       <button
         type="button"
         aria-label="Close"
@@ -191,7 +195,7 @@ export default function ScheduleModal({
       <div
         role="dialog"
         aria-modal="true"
-        className="animate-modal-in bg-surface relative w-full max-w-3xl overflow-hidden rounded-xl shadow-2xl"
+        className="animate-modal-in bg-surface text-ink relative w-full max-w-3xl overflow-hidden rounded-xl shadow-2xl"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2">
         {/* Left: session details */}

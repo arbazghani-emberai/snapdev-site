@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X } from "./icons";
+import { useTheme } from "./ThemeProvider";
 
 /**
  * Right-hand drawer that floats rather than sitting flush against the
@@ -19,6 +20,8 @@ export default function Drawer({
   onClose: () => void;
   children: React.ReactNode;
 }) {
+  const { theme } = useTheme();
+
   useEffect(() => {
     if (!open) return;
 
@@ -39,8 +42,10 @@ export default function Drawer({
   // Portaled straight to <body> - nesting this under a sticky, backdrop-blurred
   // header (as on /app/inbox) confuses some browsers' compositing order, and
   // the header ends up painting above the backdrop despite its lower z-index.
+  // Since <body> sits outside ThemeProvider's `.dark`-classed wrapper, that
+  // class has to be re-applied here too or the drawer ignores dark mode.
   return createPortal(
-    <div className="fixed inset-0 z-50">
+    <div className={`fixed inset-0 z-50 ${theme === "dark" ? "dark" : ""}`}>
       <button
         type="button"
         aria-label="Close"
@@ -51,7 +56,7 @@ export default function Drawer({
       <div
         role="dialog"
         aria-modal="true"
-        className="animate-drawer-in bg-surface absolute inset-y-3 right-3 flex w-[min(92vw,430px)] flex-col overflow-hidden rounded-xl shadow-2xl sm:inset-y-4 sm:right-4"
+        className="animate-drawer-in bg-surface text-ink absolute inset-y-3 right-3 flex w-[min(92vw,430px)] flex-col overflow-hidden rounded-xl shadow-2xl sm:inset-y-4 sm:right-4"
       >
         <button
           type="button"
