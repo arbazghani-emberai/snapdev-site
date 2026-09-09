@@ -73,7 +73,7 @@ export default function ChatWidget() {
         rows={2}
         value={detail}
         onChange={(e) => setDetail(e.target.value)}
-        placeholder="Describe it in plain English - paste an error, drop a repo link, or just vent. Our AI routes you to the right engineer."
+        placeholder="Describe it in plain English, paste an error, drop a repo link, or just vent. Our AI routes you to the right engineer."
         aria-label="Describe what you are stuck on"
         className="bg-surface-2 text-ink placeholder:text-ink-3 focus:ring-ink/10 mt-4 w-full resize-y rounded-md px-4.5 py-3.5 text-[15px] leading-[1.5] focus:ring-2 focus:outline-none"
       />

@@ -65,7 +65,7 @@ export const SESSION_LOG: LoggedSession[] = [
       { role: "you", text: "My list keeps refetching on every keystroke, even with the search debounced." },
       { role: "engineer", text: "That's usually the query key changing on each render. Can you share the hook?" },
       { role: "you", text: "Sure, one sec." },
-      { role: "engineer", text: "Yep - the filters object is a new reference every render. Memoize it and the key stabilizes." },
+      { role: "engineer", text: "Yep, the filters object is a new reference every render. Memoize it and the key stabilizes." },
       { role: "you", text: "That fixed it, thank you!" },
     ],
     noteTexts: [
@@ -94,7 +94,7 @@ export const SESSION_LOG: LoggedSession[] = [
       { role: "you", text: "Users get logged out randomly, no errors in the console." },
       { role: "engineer", text: "Sounds like a token refresh race. Are you refreshing on every request or on a timer?" },
       { role: "you", text: "On every 401, in an interceptor." },
-      { role: "engineer", text: "That's the bug - parallel requests all trigger their own refresh. Let's queue it." },
+      { role: "engineer", text: "That's the bug, parallel requests all trigger their own refresh. Let's queue it." },
     ],
     noteTexts: [
       "Refresh-token race condition confirmed via network tab.",
@@ -121,10 +121,10 @@ export const SESSION_LOG: LoggedSession[] = [
     rating: 4,
     notes: 2,
     diffs: 1,
-    testimonial: "Fast, no-nonsense - got the build green again.",
+    testimonial: "Fast, no-nonsense, got the build green again.",
     transcript: [
       { role: "you", text: "Vite migration is mostly done but env vars aren't loading in the client." },
-      { role: "engineer", text: "CRA prefixes those with REACT_APP_ - Vite wants VITE_. Let's rename them." },
+      { role: "engineer", text: "CRA prefixes those with REACT_APP_, Vite wants VITE_. Let's rename them." },
       { role: "you", text: "That was it, build's green now." },
     ],
     noteTexts: ["Renamed env vars to the VITE_ prefix.", "Config snippet saved to project workspace."],
@@ -142,7 +142,7 @@ export const SESSION_LOG: LoggedSession[] = [
     diffs: 4,
     testimonial: "Great trade-off discussion, not just an implementation.",
     transcript: [
-      { role: "you", text: "Need a rate limiter for our public API - thinking fixed window, is that enough?" },
+      { role: "you", text: "Need a rate limiter for our public API, thinking fixed window, is that enough?" },
       { role: "engineer", text: "Fixed window is simple but bursts at the boundary. Sliding window log is more accurate if you can afford Redis." },
       { role: "you", text: "We already have Redis, let's do that." },
       { role: "engineer", text: "I'll sketch the key layout and the Lua script for atomicity." },
@@ -174,7 +174,7 @@ export const SESSION_LOG: LoggedSession[] = [
     testimonial: "Cut our CI time in half, straight to the point.",
     transcript: [
       { role: "you", text: "CI went from 6 minutes to 18 over the last month, not sure which step." },
-      { role: "engineer", text: "Let's check the job timings - my guess is the test suite isn't caching node_modules." },
+      { role: "engineer", text: "Let's check the job timings, my guess is the test suite isn't caching node_modules." },
       { role: "you", text: "You're right, cache key wasn't including the lockfile hash." },
     ],
     noteTexts: [

@@ -17,8 +17,8 @@ export default function UpgradeRequiredModal({
 }) {
   return (
     <Modal open={open} onClose={onClose} className="max-w-sm text-center">
-      <span className="mx-auto grid size-12 place-items-center rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed]">
-        <Lock className="size-5 text-white" strokeWidth={2} />
+      <span className="border-line mx-auto grid size-12 place-items-center rounded-full border-2">
+        <Lock className="text-ink-2 size-5" strokeWidth={2} />
       </span>
       <h2 className="font-heading mt-4 text-[19px] font-semibold tracking-tight">{title}</h2>
       <p className="text-ink-2 mt-2 text-[13.5px] leading-relaxed">{message}</p>

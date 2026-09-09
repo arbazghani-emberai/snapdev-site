@@ -108,7 +108,7 @@ function seedThreads(): Thread[] {
       engineer: engineer("Wajahat A."),
       messages: [
         { id: "m5", role: "you", text: "Trying to wire OpenAI streaming into a Next.js route handler." },
-        { id: "m6", role: "engineer", text: "Use a ReadableStream and pipe the SDK's stream into it - I can show you the pattern." },
+        { id: "m6", role: "engineer", text: "Use a ReadableStream and pipe the SDK's stream into it, I can show you the pattern." },
         { id: "m7", role: "you", text: "That worked, thank you!" },
       ],
       endedAt: now - 1000 * 60 * 60 * 5,
@@ -118,7 +118,7 @@ function seedThreads(): Thread[] {
       engineer: engineer("Abbas R."),
       messages: [
         { id: "m8", role: "you", text: "Postgres query is timing out on a table with ~2M rows." },
-        { id: "m9", role: "engineer", text: "Let's check EXPLAIN ANALYZE first - my guess is a missing index on the filter column." },
+        { id: "m9", role: "engineer", text: "Let's check EXPLAIN ANALYZE first, my guess is a missing index on the filter column." },
       ],
       endedAt: now - 1000 * 60 * 60 * 26,
     },

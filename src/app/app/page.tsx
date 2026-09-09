@@ -13,6 +13,7 @@ import UpgradeRequiredModal from "@/components/UpgradeRequiredModal";
 import ScheduleModal from "@/components/ScheduleModal";
 import { useProjects } from "@/components/ProjectsProvider";
 import { usePlan } from "@/components/PlanProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import { ONLINE_ENGINEERS, USAGE, type Project } from "@/data/app";
 import type { DirectoryEngineer } from "@/data/engineer-directory";
 
@@ -32,6 +33,7 @@ export default function AppHome() {
   const [teammateEngineer, setTeammateEngineer] = useState<DirectoryEngineer | null>(null);
   const { projects } = useProjects();
   const { plan, hasPlanAtLeast } = usePlan();
+  const { theme } = useTheme();
   const isGrowthPlus = hasPlanAtLeast("growth");
 
   const startSession = (projectId?: string) => {
@@ -48,7 +50,11 @@ export default function AppHome() {
     <button
       type="button"
       onClick={() => startSession()}
-      className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[14px] font-semibold text-[#131313] transition hover:bg-white/90"
+      className={
+        theme === "dark"
+          ? "flex items-center gap-1.5 rounded-full border-2 border-white bg-transparent px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-white/10"
+          : "flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[14px] font-semibold text-[#131313] transition hover:bg-white/90"
+      }
     >
       Get unstuck
       <ArrowRight className="size-3.5" strokeWidth={2.5} />
@@ -59,7 +65,11 @@ export default function AppHome() {
     <button
       type="button"
       onClick={findTeammate}
-      className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:opacity-90"
+      className={
+        theme === "dark"
+          ? "flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-[14px] font-semibold text-[#131313] transition hover:bg-white/90"
+          : "bg-brand hover:bg-brand-ink flex items-center gap-1.5 rounded-full px-5 py-2.5 text-[14px] font-semibold text-white transition"
+      }
     >
       <Crown className="size-3.5" strokeWidth={2} />
       Find your teammate

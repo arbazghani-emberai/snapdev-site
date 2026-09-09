@@ -416,7 +416,7 @@ function PlanTab() {
 
       <div id="hour-packs" className="border-line bg-surface mt-6 scroll-mt-24 rounded-md border p-5">
         <h3 className="font-heading text-[16px] font-semibold tracking-tight">Need more hours?</h3>
-        <p className="text-ink-2 mt-1 text-[13px]">Add extra hours on top of your current plan - no need to upgrade.</p>
+        <p className="text-ink-2 mt-1 text-[13px]">Add extra hours on top of your current plan, no need to upgrade.</p>
 
         <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {HOUR_PACKS.map((pack) => {

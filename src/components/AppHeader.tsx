@@ -119,9 +119,9 @@ export default function AppHeader() {
                 {locked && (
                   <span
                     aria-hidden="true"
-                    className="grid size-5 shrink-0 place-items-center rounded-[6px] bg-gradient-to-r from-[#a855f7] to-[#7c3aed]"
+                    className="border-line grid size-5 shrink-0 place-items-center rounded-[6px] border"
                   >
-                    <Lock className="size-3 text-white" strokeWidth={2.5} />
+                    <Lock className="text-ink-2 size-3" strokeWidth={2.5} />
                   </span>
                 )}
               </Link>
@@ -149,7 +149,7 @@ export default function AppHeader() {
             <>
               <Link
                 href="/app/settings?tab=plan"
-                className="hidden items-center gap-1.5 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90 lg:flex"
+                className="hidden items-center gap-1.5 rounded-full bg-brand hover:bg-brand-ink px-4 py-2 text-[13px] font-semibold text-white transition lg:flex"
               >
                 <Crown className="size-3.5" strokeWidth={2} />
                 Upgrade plan
@@ -262,9 +262,9 @@ export default function AppHeader() {
               {locked && (
                 <span
                   aria-hidden="true"
-                  className="grid size-5 shrink-0 place-items-center rounded-[6px] bg-gradient-to-r from-[#a855f7] to-[#7c3aed]"
+                  className="border-line grid size-5 shrink-0 place-items-center rounded-[6px] border"
                 >
-                  <Lock className="size-3 text-white" strokeWidth={2.5} />
+                  <Lock className="text-ink-2 size-3" strokeWidth={2.5} />
                 </span>
               )}
             </Link>
@@ -301,7 +301,7 @@ export default function AppHeader() {
           <>
             <Link
               href="/app/settings?tab=plan"
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed] px-4 py-2.5 text-[13.5px] font-semibold text-white transition hover:opacity-90"
+              className="flex items-center gap-2 rounded-full bg-brand hover:bg-brand-ink px-4 py-2.5 text-[13.5px] font-semibold text-white transition"
             >
               <Crown className="size-3.5" strokeWidth={2} />
               Upgrade plan

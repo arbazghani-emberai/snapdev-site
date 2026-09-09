@@ -7,12 +7,14 @@ import AuthLayout from "@/components/AuthLayout";
 import GoogleLogo from "@/components/GoogleLogo";
 import GithubLogo from "@/components/GithubLogo";
 import { claimGuestSession } from "@/components/SessionProvider";
+import { Eye, EyeOff } from "@/components/icons";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <AuthLayout heading="Sign in" subheading="Welcome back! Enter your details below.">
@@ -42,14 +44,25 @@ export default function LoginPage() {
               Forgot password?
             </Link>
           </div>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="border-line focus:border-ink placeholder:text-ink-3 mt-1.5 w-full rounded-lg border p-3 text-[14px] outline-none transition"
-          />
+          <div className="relative mt-1.5">
+            <input
+              type={showPassword ? "text" : "password"}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="border-line focus:border-ink placeholder:text-ink-3 w-full rounded-lg border p-3 pr-11 text-[14px] outline-none transition"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              className="text-ink-3 hover:text-ink-2 absolute top-1/2 right-3 -translate-y-1/2 transition"
+            >
+              {showPassword ? <EyeOff className="size-[18px]" strokeWidth={1.75} /> : <Eye className="size-[18px]" strokeWidth={1.75} />}
+            </button>
+          </div>
         </label>
 
         <label className="flex items-center gap-2 text-[13.5px]">

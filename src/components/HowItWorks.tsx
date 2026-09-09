@@ -3,11 +3,11 @@ import Reveal from "./Reveal";
 const STEPS = [
   {
     title: "Tell Us Where You're Stuck",
-    body: "Describe the problem in plain English - paste an error, drop a repo link, or attach your Claude conversation. Our AI figures out what kind of help you need.",
+    body: "Describe the problem in plain English, paste an error, drop a repo link, or attach your Claude conversation. Our AI figures out what kind of help you need.",
   },
   {
     title: "Get Matched in Minutes",
-    body: "We route your request to vetted engineers who know your exact stack and tools. Compare profiles and reviews - or take the first available expert for instant help.",
+    body: "We route your request to vetted engineers who know your exact stack and tools. Compare profiles and reviews, or take the first available expert for instant help.",
   },
   {
     title: "Pair, Fix & Learn",

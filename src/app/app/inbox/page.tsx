@@ -283,7 +283,7 @@ function InboxPageInner() {
               <button
                 type="button"
                 onClick={() => setScheduleEngineer(session.engineer)}
-                className="bg-brand hover:bg-brand-ink hidden shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-white transition sm:flex"
+                className="bg-ink hover:bg-ink/85 text-bg hidden shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold transition sm:flex"
               >
                 <Phone className="size-3.5" strokeWidth={1.75} />
                 Book a call

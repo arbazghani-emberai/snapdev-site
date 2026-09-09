@@ -23,7 +23,7 @@ export default function SiteFooter() {
           </nav>
         </div>
         <p className="text-ink-3 border-line-2 mt-10 border-t pt-6 text-[13px]">
-          © 2026 SnapDev.ai - real engineers, on demand.
+          © 2026 SnapDev.ai, real engineers, on demand.
         </p>
       </div>
     </footer>

@@ -79,7 +79,7 @@ export default function BookFreeSessionModal({ open, onClose }: { open: boolean;
         <>
           <h2 className="font-heading text-[22px] font-semibold tracking-tight">Book a free 30-minute call</h2>
           <p className="text-ink-2 mt-2 text-[13.5px] leading-relaxed">
-            Pick an engineer, pick a time, and the invite lands in your inbox. One free session per email - no
+            Pick an engineer, pick a time, and the invite lands in your inbox. One free session per email, no
             account needed.
           </p>
 
@@ -110,7 +110,7 @@ export default function BookFreeSessionModal({ open, onClose }: { open: boolean;
         <>
           <h2 className="font-heading text-[22px] font-semibold tracking-tight">Pick your engineer</h2>
           <p className="text-ink-2 mt-2 text-[13.5px] leading-relaxed">
-            Choose whoever fits your problem - their available times come next.
+            Choose whoever fits your problem, their available times come next.
           </p>
 
           <div className="mt-5 flex max-h-[360px] flex-col gap-3 overflow-y-auto pr-1">

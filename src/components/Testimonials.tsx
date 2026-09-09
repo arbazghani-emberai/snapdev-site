@@ -28,7 +28,7 @@ type Testimonial = {
 const TESTIMONIALS: Testimonial[] = [
   {
     lead: "I'm a designer, not a developer.",
-    rest: "SnapDev.ai is my unfair advantage - whenever Claude and I get stuck, a real engineer shows up in minutes.",
+    rest: "SnapDev.ai is my unfair advantage, whenever Claude and I get stuck, a real engineer shows up in minutes.",
     name: "Tara Jensen",
     title: "Founder, Mealio",
     avatar: "/img/tara.jpg",

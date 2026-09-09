@@ -10,7 +10,7 @@ export default function FinalCta() {
           Stop being stuck. Start shipping.
         </h2>
         <p className="mx-auto mt-5 max-w-sm text-balance text-[clamp(11px,1.7vw,15.5px)] font-medium text-white/60 lg:max-w-none lg:whitespace-nowrap">
-          Get matched with a senior engineer in minutes - your first session is free,
+          Get matched with a senior engineer in minutes, your first session is free,
           up to 30 minutes.
         </p>
         <button

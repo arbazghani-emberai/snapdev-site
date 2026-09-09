@@ -22,7 +22,7 @@ const FEATURED: FeaturedService[] = [
   {
     title: "Deployment & DevOps",
     tagline: "Ship with confidence",
-    blurb: "From localhost to a live URL - hosting, CI/CD, and domains handled.",
+    blurb: "From localhost to a live URL, hosting, CI/CD, and domains handled.",
     tags: ["Vercel & Netlify", "Docker & CI/CD", "Domains & DNS", "Monitoring"],
     icon: Wrench,
     visual: DeployVisual,
@@ -30,7 +30,7 @@ const FEATURED: FeaturedService[] = [
   {
     title: "Debugging & Rescue",
     tagline: "Fix what's broken",
-    blurb: "Fix what the AI broke - cryptic errors found and explained.",
+    blurb: "Fix what the AI broke, cryptic errors found and explained.",
     tags: ["Stack Traces", "Build Errors", "Runtime Bugs"],
     icon: Bug,
     visual: DebugVisual,

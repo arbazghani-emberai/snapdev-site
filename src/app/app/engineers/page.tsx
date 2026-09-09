@@ -301,8 +301,8 @@ export default function EngineersPage() {
   if (!hasPlanAtLeast("growth")) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center py-10 text-center">
-        <span className="grid size-14 place-items-center rounded-full bg-gradient-to-r from-[#a855f7] to-[#7c3aed]">
-          <Lock className="size-6 text-white" strokeWidth={2} />
+        <span className="border-line grid size-14 place-items-center rounded-full border-2">
+          <Lock className="text-ink-2 size-6" strokeWidth={2} />
         </span>
         <h1 className="font-heading mt-5 text-[22px] font-semibold tracking-tight">This page is locked</h1>
         <p className="text-ink-2 mx-auto mt-2 max-w-xs text-[14.5px] leading-relaxed">
