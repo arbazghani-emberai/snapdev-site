@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Play } from "lucide-react";
+import Link from "next/link";
+import { Play, ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
 
 /** lucide dropped its brand icons, so the X mark is inlined. */
@@ -177,6 +178,16 @@ export default function Testimonials() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-10 flex justify-center">
+          <Link
+            href="/testimonials"
+            className="border-line hover:bg-surface-2 flex items-center gap-2 rounded-full border px-5 py-2.5 text-[14px] font-semibold transition"
+          >
+            See All Testimonials
+            <ArrowRight className="size-3.5" strokeWidth={2} />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );
