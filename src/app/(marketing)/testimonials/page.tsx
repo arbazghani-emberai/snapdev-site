@@ -49,7 +49,7 @@ export default function TestimonialsPage() {
       <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {ALL_TESTIMONIALS.map((t, i) => (
           <Reveal key={t.name} delay={Math.min(i * 0.04, 0.6)}>
-            <figure className="border-line hover:border-ink-3 bg-surface flex h-full flex-col rounded-xl border p-6 transition-colors duration-300">
+            <figure className="border-line hover:border-ink-3 bg-surface flex h-[440px] flex-col rounded-xl border p-6 transition-colors duration-300">
               <figcaption className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
                   <span
@@ -71,10 +71,10 @@ export default function TestimonialsPage() {
                 </span>
               </figcaption>
 
-              {t.context && <p className="text-ink-3 mt-4 text-[12.5px] leading-relaxed">{t.context}</p>}
+              {t.context && <p className="text-ink-3 mt-4 line-clamp-2 text-[12.5px] leading-relaxed">{t.context}</p>}
 
-              <blockquote className="mt-4 flex-1">
-                <p className="text-ink-2 text-[14px] leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
+              <blockquote className="mt-4 min-h-0 flex-1 overflow-hidden">
+                <p className="text-ink-2 line-clamp-6 text-[14px] leading-relaxed">&ldquo;{t.quote}&rdquo;</p>
               </blockquote>
 
               <span aria-hidden="true" className="text-star mt-5 block text-[14px] tracking-[0.2em]">
