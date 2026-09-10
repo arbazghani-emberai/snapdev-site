@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -52,12 +53,22 @@ export default function TestimonialsPage() {
             <figure className="border-line hover:border-ink-3 bg-surface flex h-[440px] flex-col rounded-xl border p-6 transition-colors duration-300">
               <figcaption className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-3">
-                  <span
-                    aria-hidden="true"
-                    className={`${tintFor(t.name)} text-ink grid size-10 shrink-0 place-items-center rounded-full text-[13px] font-semibold`}
-                  >
-                    {initialsFor(t.name)}
-                  </span>
+                  {t.avatar ? (
+                    <Image
+                      src={t.avatar}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="size-10 shrink-0 rounded-full object-cover"
+                    />
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className={`${tintFor(t.name)} text-ink grid size-10 shrink-0 place-items-center rounded-full text-[13px] font-semibold`}
+                    >
+                      {initialsFor(t.name)}
+                    </span>
+                  )}
                   <div className="min-w-0">
                     <div className="truncate text-[14.5px] font-semibold">{t.name}</div>
                     {t.role && <div className="text-ink-3 truncate text-[12.5px]">{t.role}</div>}
