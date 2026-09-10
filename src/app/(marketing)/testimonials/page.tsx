@@ -28,27 +28,31 @@ function initialsFor(name: string) {
 
 export default function TestimonialsPage() {
   return (
-    <div className="py-10 sm:py-14">
-      <Reveal>
-        <Link
-          href="/"
-          className="text-ink-2 hover:text-ink mb-6 inline-flex items-center gap-1.5 text-[13.5px] font-medium"
-        >
-          <ArrowLeft className="size-3.5" strokeWidth={2} />
-          Back to home
-        </Link>
+    // Full-bleed breakout, same as the landing page's Testimonials section,
+    // so the left/right padding lines up exactly regardless of this route's
+    // own layout container.
+    <div className="relative left-1/2 w-screen -translate-x-1/2 py-10 sm:py-14">
+      <div className="px-5 sm:px-10 lg:px-14">
+        <Reveal>
+          <Link
+            href="/"
+            className="text-ink-2 hover:text-ink mb-6 inline-flex items-center gap-1.5 text-[13.5px] font-medium"
+          >
+            <ArrowLeft className="size-3.5" strokeWidth={2} />
+            Back to home
+          </Link>
 
-        <h1 className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]">
-          Builders Who Shipped
-        </h1>
-        <p className="text-ink-2 mt-3 max-w-lg text-[15px] leading-relaxed">
-          {ALL_TESTIMONIALS.length} builders who worked with our engineering team through SnapCamp and SnapSprint,
-          in their own words.
-        </p>
-      </Reveal>
+          <h1 className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]">
+            Builders Who Shipped
+          </h1>
+          <p className="text-ink-2 mt-3 max-w-lg text-[15px] leading-relaxed">
+            {ALL_TESTIMONIALS.length} builders who worked with our engineering team through SnapCamp and SnapSprint,
+            in their own words.
+          </p>
+        </Reveal>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {ALL_TESTIMONIALS.map((t, i) => (
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {ALL_TESTIMONIALS.map((t, i) => (
           <Reveal key={t.name} delay={Math.min(i * 0.04, 0.6)}>
             <figure className="border-line hover:border-ink-3 bg-surface flex h-[440px] flex-col rounded-xl border p-6 transition-colors duration-300">
               <figcaption className="flex items-start justify-between gap-3">
@@ -93,7 +97,8 @@ export default function TestimonialsPage() {
               </span>
             </figure>
           </Reveal>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
