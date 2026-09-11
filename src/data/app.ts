@@ -29,11 +29,12 @@ export const PROJECTS: Project[] = [];
 export type PlanTier = {
   id: string;
   name: string;
+  /** $19 platform fee + hoursPerMonth * ratePerHour. */
   price: number;
-  hours: string;
+  platformFee: number;
   hoursPerMonth: number;
+  ratePerHour: number;
   description: string;
-  features: { label: string; included: boolean }[];
   highlight?: boolean;
 };
 
@@ -42,62 +43,47 @@ export const PLANS: PlanTier[] = [
     id: "starter",
     name: "Starter",
     price: 19,
-    hours: "No engineering hours",
+    platformFee: 19,
     hoursPerMonth: 0,
-    description: "No engineering hours included. Browse the roster and get matched when you're ready.",
-    features: [
-      { label: "Get unstuck on demand", included: false },
-      { label: "Matched teammate", included: false },
-    ],
+    ratePerHour: 60,
+    description: "No hours included. Pay $60/hr à la carte whenever you need help.",
   },
   {
     id: "pro",
     name: "Pro",
     price: 129,
-    hours: "2 engineering hrs/mo",
+    platformFee: 19,
     hoursPerMonth: 2,
-    description: "2 hrs a month. Good for occasional help getting unstuck.",
-    features: [
-      { label: "Get unstuck on demand", included: true },
-      { label: "Matched teammate", included: false },
-    ],
+    ratePerHour: 55,
+    description: "2 hrs a month at $55/hr, plus the $19 platform fee.",
     highlight: true,
   },
   {
     id: "pro-plus",
     name: "Pro+",
     price: 269,
-    hours: "5 engineering hrs/mo",
+    platformFee: 19,
     hoursPerMonth: 5,
-    description: "5 hrs a month. Steady support as you build.",
-    features: [
-      { label: "Get unstuck on demand", included: true },
-      { label: "Matched teammate", included: false },
-    ],
+    ratePerHour: 50,
+    description: "5 hrs a month at $50/hr, plus the $19 platform fee.",
   },
   {
     id: "growth",
     name: "Growth",
     price: 469,
-    hours: "10 engineering hrs/mo",
+    platformFee: 19,
     hoursPerMonth: 10,
-    description: "10 hrs a month. A dedicated teammate, or on-demand support. Slack community access.",
-    features: [
-      { label: "Get unstuck on demand", included: true },
-      { label: "Matched teammate", included: true },
-    ],
+    ratePerHour: 45,
+    description: "10 hrs a month at $45/hr, plus the $19 platform fee.",
   },
   {
     id: "partner",
     name: "Partner",
-    price: 999,
-    hours: "25 engineering hrs/mo",
+    price: 994,
+    platformFee: 19,
     hoursPerMonth: 25,
-    description: "25 hrs a month. Priority access and a dedicated engineering partner.",
-    features: [
-      { label: "Get unstuck on demand", included: true },
-      { label: "Matched teammate", included: true },
-    ],
+    ratePerHour: 39,
+    description: "25 hrs a month at $39/hr, plus the $19 platform fee.",
   },
 ];
 

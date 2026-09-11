@@ -4,7 +4,7 @@ import { Suspense, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { CreditCard, Clock, Check, Minus, User, Camera, Download, FileText, Plus } from "@/components/icons";
+import { CreditCard, Clock, Check, User, Camera, Download, FileText, Plus } from "@/components/icons";
 import Reveal from "@/components/Reveal";
 import Modal from "@/components/Modal";
 import { usePlan } from "@/components/PlanProvider";
@@ -380,20 +380,29 @@ function PlanTab() {
                 <span className="font-heading text-[28px] font-semibold tracking-tight">${plan.price}</span>
                 <span className="text-ink-3 text-[13px]">/mo</span>
               </div>
-              <div className="text-ink-3 mt-1 text-[12.5px]">{plan.hours}</div>
 
-              <ul className="mt-4 flex flex-1 flex-col gap-2">
-                {plan.features.map((f) => (
-                  <li key={f.label} className="flex items-center gap-2 text-[12.5px]">
-                    {f.included ? (
-                      <Check className="text-online size-3.5 shrink-0" strokeWidth={2.5} />
-                    ) : (
-                      <Minus className="text-ink-3 size-3.5 shrink-0" strokeWidth={2.5} />
-                    )}
-                    <span className={f.included ? "text-ink" : "text-ink-3"}>{f.label}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4 flex flex-1 flex-col gap-2.5">
+                <div className="border-line bg-surface-2 rounded-lg border p-3">
+                  <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
+                    Hours included
+                  </div>
+                  <div className="mt-1 text-[19px] font-semibold tracking-tight">
+                    {plan.hoursPerMonth > 0 ? `${plan.hoursPerMonth} hrs/mo` : "Pay as you go"}
+                  </div>
+                </div>
+                <div className="border-line bg-surface-2 rounded-lg border p-3">
+                  <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
+                    Rate per hour
+                  </div>
+                  <div className="mt-1 text-[19px] font-semibold tracking-tight">${plan.ratePerHour}/hr</div>
+                </div>
+                <p className="text-ink-3 text-[12px] leading-relaxed">
+                  ${plan.platformFee} platform fee
+                  {plan.hoursPerMonth > 0
+                    ? ` + ${plan.hoursPerMonth} hrs × $${plan.ratePerHour}/hr`
+                    : ` · $${plan.ratePerHour}/hr à la carte`}
+                </p>
+              </div>
 
               <button
                 type="button"
