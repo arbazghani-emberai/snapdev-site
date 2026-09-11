@@ -381,8 +381,8 @@ function PlanTab() {
                 <span className="text-ink-3 text-[13px]">/mo</span>
               </div>
 
-              <div className="mt-4 flex flex-1 flex-col gap-2.5">
-                <div className="border-line bg-surface-2 rounded-md border p-3">
+              <div className="mt-4 flex flex-1 flex-col">
+                <div className="border-line-2 border-t py-3 first:border-t-0 first:pt-0">
                   <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
                     Hours included
                   </div>
@@ -390,7 +390,7 @@ function PlanTab() {
                     {plan.hoursPerMonth > 0 ? `${plan.hoursPerMonth} hrs/mo` : "Pay as you go"}
                   </div>
                 </div>
-                <div className="border-line bg-surface-2 rounded-md border p-3">
+                <div className="border-line-2 border-t py-3 first:border-t-0 first:pt-0">
                   <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
                     Rate per hour
                   </div>
