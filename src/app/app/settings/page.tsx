@@ -396,12 +396,7 @@ function PlanTab() {
                   </div>
                   <div className="mt-1 text-[15px] font-semibold tracking-tight">${plan.ratePerHour}/hr</div>
                 </div>
-                <p className="text-ink-3 text-[12px] leading-relaxed">
-                  ${plan.platformFee} platform fee
-                  {plan.hoursPerMonth > 0
-                    ? ` + ${plan.hoursPerMonth} hrs × $${plan.ratePerHour}/hr`
-                    : ` · $${plan.ratePerHour}/hr à la carte`}
-                </p>
+                <p className="text-ink-3 text-[12px] leading-relaxed">${plan.platformFee} platform fee</p>
               </div>
 
               <button
