@@ -288,6 +288,10 @@ function CancelSubscriptionModal({
   );
 }
 
+// The Starter tier's à la carte rate - the baseline every other tier's
+// hourly rate is discounted against.
+const BASE_HOUR_RATE = PLANS.find((p) => p.hoursPerMonth === 0)?.ratePerHour ?? PLANS[0].ratePerHour;
+
 function PlanTab() {
   const { plan: currentPlan, setPlanId } = usePlan();
   const [purchasedPack, setPurchasedPack] = useState<string | null>(null);
@@ -358,6 +362,9 @@ function PlanTab() {
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {PLANS.map((plan) => {
           const isCurrent = plan.id === currentPlan.id;
+          // Discount off the Starter tier's à la carte rate - the baseline
+          // hourly price with no monthly commitment.
+          const discountPct = Math.round((1 - plan.ratePerHour / BASE_HOUR_RATE) * 100);
           return (
             <div
               key={plan.id}
@@ -394,7 +401,12 @@ function PlanTab() {
                   <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
                     Rate per hour
                   </div>
-                  <div className="mt-1 text-[15px] font-semibold tracking-tight">${plan.ratePerHour}/hr</div>
+                  <div className="mt-1 flex items-baseline gap-1.5">
+                    <span className="text-[15px] font-semibold tracking-tight">${plan.ratePerHour}/hr</span>
+                    {discountPct > 0 && (
+                      <span className="text-online text-[11.5px] font-semibold">{discountPct}% off</span>
+                    )}
+                  </div>
                 </div>
                 <p className="text-ink-3 text-[12px] leading-relaxed">${plan.platformFee} platform fee</p>
               </div>
