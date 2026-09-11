@@ -26,6 +26,7 @@ import {
 } from "@/components/icons";
 import ScheduleModal from "@/components/ScheduleModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
+import Modal from "@/components/Modal";
 import CatGame from "@/components/CatGame";
 import { useSession } from "@/components/SessionProvider";
 import { useProjects } from "@/components/ProjectsProvider";
@@ -48,6 +49,15 @@ const SHARED_ITEM_ICON: Record<"file" | "image" | "snippet", IconComponent> = {
  *  beat, so revisiting the inbox page doesn't replay it for a session
  *  that's already under way. */
 const connectedSessionIds = new Set<number>();
+
+/** How long the "connecting" screen's countdown runs before giving up. */
+const WAIT_SECONDS = 120;
+
+function formatCountdown(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
 
 function Avatar({ engineer, size }: { engineer: Engineer; size: number }) {
   return (
@@ -114,6 +124,8 @@ function InboxPageInner() {
   const [kebabOpen, setKebabOpen] = useState(false);
   const kebabRef = useRef<HTMLDivElement>(null);
   const [connecting, setConnecting] = useState(false);
+  const [secondsLeft, setSecondsLeft] = useState(WAIT_SECONDS);
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
 
   useClickOutside(attachMenuRef, attachMenuOpen, () => {
     setAttachMenuOpen(false);
@@ -152,15 +164,29 @@ function InboxPageInner() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time reaction to a new session id, not derivable from props/state during render
     setSelected(true);
     setConnecting(true);
+    setSecondsLeft(WAIT_SECONDS);
   }, [session?.startedAt]);
 
   useEffect(() => {
     if (!connecting) return;
-    // Long enough to leave room for a couple of rounds of the waiting-screen
-    // game rather than flashing by.
-    const timer = setTimeout(() => setConnecting(false), 7000);
-    return () => clearTimeout(timer);
+    const timer = setInterval(() => {
+      setSecondsLeft((s) => {
+        if (s <= 1) {
+          setConnecting(false);
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
   }, [connecting]);
+
+  const cancelRequest = () => {
+    setCancelModalOpen(false);
+    endSession();
+    setSelected(false);
+    setConnecting(false);
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ block: "end" });
@@ -230,13 +256,49 @@ function InboxPageInner() {
   // chrome (list, header, side panels) to show alongside it either.
   if (connecting) {
     return (
-      <div className="bg-surface fixed inset-x-0 bottom-0 top-16 flex flex-col items-center justify-center gap-6 px-4 text-center">
-        <div className="flex items-center gap-2.5">
-          <span className="border-line border-t-brand size-5 animate-spin rounded-full border-2" />
-          <p className="text-ink text-[17px] font-semibold">Connecting with an engineer...</p>
+      <>
+        <div className="bg-surface fixed inset-x-0 bottom-0 top-16 flex flex-col items-center justify-center gap-6 px-4 text-center">
+          <span className="border-line border-t-brand size-16 animate-spin rounded-full border-4" />
+          <div>
+            <h1 className="font-heading text-[26px] font-semibold tracking-tight">Connecting with engineer</h1>
+            <p className="text-ink-2 mx-auto mt-2 max-w-xs text-[15px] leading-relaxed">
+              The session will start as soon as the engineer accepts.
+            </p>
+          </div>
+          <div className="font-heading text-[28px] font-semibold tracking-tight tabular-nums">
+            {formatCountdown(secondsLeft)}
+          </div>
+          <button
+            type="button"
+            onClick={() => setCancelModalOpen(true)}
+            className="text-ink-2 hover:text-ink text-[14px] font-semibold underline underline-offset-2 transition"
+          >
+            Cancel request
+          </button>
+          <CatGame />
         </div>
-        <CatGame />
-      </div>
+
+        <Modal open={cancelModalOpen} onClose={() => setCancelModalOpen(false)} className="max-w-md text-center">
+          <h2 className="font-heading text-[22px] font-semibold tracking-tight">Stop looking for an engineer?</h2>
+          <p className="text-ink-2 mt-3 text-[14.5px] leading-relaxed">
+            Are you sure? This will cancel your request and remove you from the queue.
+          </p>
+          <button
+            type="button"
+            onClick={() => setCancelModalOpen(false)}
+            className="bg-ink hover:bg-ink/85 text-bg mt-6 w-full rounded-full py-3.5 text-[15px] font-semibold transition"
+          >
+            Keep waiting
+          </button>
+          <button
+            type="button"
+            onClick={cancelRequest}
+            className="text-danger hover:text-danger/80 mt-4 text-[14px] font-semibold transition"
+          >
+            Yes, cancel the request
+          </button>
+        </Modal>
+      </>
     );
   }
 
