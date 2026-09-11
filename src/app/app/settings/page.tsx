@@ -386,7 +386,7 @@ function PlanTab() {
                   <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
                     Hours included
                   </div>
-                  <div className="mt-1 text-[19px] font-semibold tracking-tight">
+                  <div className="mt-1 text-[15px] font-semibold tracking-tight">
                     {plan.hoursPerMonth > 0 ? `${plan.hoursPerMonth} hrs/mo` : "Pay as you go"}
                   </div>
                 </div>
@@ -394,7 +394,7 @@ function PlanTab() {
                   <div className="text-ink-3 text-[10.5px] font-semibold tracking-[0.04em] uppercase">
                     Rate per hour
                   </div>
-                  <div className="mt-1 text-[19px] font-semibold tracking-tight">${plan.ratePerHour}/hr</div>
+                  <div className="mt-1 text-[15px] font-semibold tracking-tight">${plan.ratePerHour}/hr</div>
                 </div>
                 <p className="text-ink-3 text-[12px] leading-relaxed">
                   ${plan.platformFee} platform fee
