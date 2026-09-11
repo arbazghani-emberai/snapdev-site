@@ -26,7 +26,7 @@ import {
 } from "@/components/icons";
 import ScheduleModal from "@/components/ScheduleModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
-import DinoGame from "@/components/DinoGame";
+import CatGame from "@/components/CatGame";
 import { useSession } from "@/components/SessionProvider";
 import { useProjects } from "@/components/ProjectsProvider";
 import { ONLINE_ENGINEERS, type Project } from "@/data/app";
@@ -235,7 +235,7 @@ function InboxPageInner() {
           <span className="border-line border-t-brand size-5 animate-spin rounded-full border-2" />
           <p className="text-ink text-[17px] font-semibold">Connecting with an engineer...</p>
         </div>
-        <DinoGame />
+        <CatGame />
       </div>
     );
   }

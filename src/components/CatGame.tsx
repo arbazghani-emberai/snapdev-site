@@ -9,21 +9,21 @@ const GROUND_Y = HEIGHT - 24;
 const GRAVITY = 2600;
 const JUMP_VELOCITY = -720;
 const RUN_SPEED = 260;
-const BEST_SCORE_KEY = "snapdev-dino-best";
+const BEST_SCORE_KEY = "snapdev-cat-best";
 
 const PALETTE = {
   light: { ink: "#131313", ink2: "#a3a3a3", line: "#e5e5e5", brand: "#3d6df2", surface: "#ffffff" },
   dark: { ink: "#f2f2f2", ink2: "#71717a", line: "#2c2d33", brand: "#5c85ff", surface: "#17181c" },
 };
 
-const DINO_W = 32;
-const DINO_H = 30;
+const CAT_W = 32;
+const CAT_H = 28;
 
-/** A blocky T-rex silhouette (torso, a dragging tail, a head with an open
- *  jaw, a stubby arm, a punched-out eye) with stepping legs while running
- *  and a tucked pose in the air - the Chrome-dino-game shorthand for "you're
- *  waiting for something", drawn as our own shape rather than that sprite. */
-function drawDino(
+/** A blocky cat silhouette (body, a curled tail, a round head with pointed
+ *  ears and an eye) with stepping legs while running and a tucked pose in
+ *  the air - the Chrome-dino-game shorthand for "you're waiting for
+ *  something", played with a cat instead of a T-rex. */
+function drawCat(
   ctx: CanvasRenderingContext2D,
   x: number,
   groundY: number,
@@ -32,36 +32,45 @@ function drawDino(
   airborne: boolean,
   legPhase: 0 | 1,
 ) {
-  const bodyTop = groundY - DINO_H;
+  const bodyTop = groundY - CAT_H;
+
+  // Tail, curling up off the back.
+  ctx.strokeStyle = ink;
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(x + 3, bodyTop + 14);
+  ctx.quadraticCurveTo(x - 6, bodyTop + 10, x - 2, bodyTop + 2);
+  ctx.quadraticCurveTo(x, bodyTop - 2, x + 4, bodyTop + 1);
+  ctx.stroke();
 
   ctx.fillStyle = ink;
 
-  // Tail, dragging back and down off the lower back.
+  // Body.
+  ctx.fillRect(x + 4, bodyTop + 10, 18, 12);
+
+  // Head, with pointed ears.
+  ctx.fillRect(x + 18, bodyTop + 2, 12, 11);
   ctx.beginPath();
-  ctx.moveTo(x + 4, bodyTop + 15);
-  ctx.lineTo(x - 5, bodyTop + 19);
-  ctx.lineTo(x + 4, bodyTop + 22);
+  ctx.moveTo(x + 19, bodyTop + 2);
+  ctx.lineTo(x + 21, bodyTop - 4);
+  ctx.lineTo(x + 24, bodyTop + 2);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x + 25, bodyTop + 2);
+  ctx.lineTo(x + 27, bodyTop - 4);
+  ctx.lineTo(x + 29, bodyTop + 2);
   ctx.closePath();
   ctx.fill();
 
-  // Torso, rising into the neck.
-  ctx.fillRect(x + 4, bodyTop + 10, 20, 14);
-  ctx.fillRect(x + 8, bodyTop + 4, 12, 8);
-
-  // Head and open jaw.
-  ctx.fillRect(x + 20, bodyTop, 10, 12);
-  ctx.fillRect(x + 28, bodyTop + 6, 4, 4);
-
-  // Stubby arm.
-  ctx.fillRect(x + 18, bodyTop + 16, 4, 3);
-
   // Eye.
   ctx.fillStyle = surface;
-  ctx.fillRect(x + 25, bodyTop + 3, 4, 4);
+  ctx.fillRect(x + 25, bodyTop + 6, 3, 3);
 
   // Legs: alternating stride while grounded, tucked together in the air.
   ctx.fillStyle = ink;
-  const legTop = bodyTop + 24;
+  const legTop = bodyTop + 22;
   if (airborne) {
     ctx.fillRect(x + 6, legTop, 6, 6);
     ctx.fillRect(x + 15, legTop, 6, 6);
@@ -78,7 +87,7 @@ type Obstacle = { x: number; width: number; height: number };
 
 type GameState = {
   status: "ready" | "running" | "over";
-  dinoY: number;
+  catY: number;
   velocity: number;
   obstacles: Obstacle[];
   distance: number;
@@ -105,7 +114,7 @@ function writeBest(value: number) {
 }
 
 /** A tiny Chrome-dino-style jump game to pass the time while an engineer connects. */
-export default function DinoGame() {
+export default function CatGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
   const themeRef = useRef(theme);
@@ -127,7 +136,7 @@ export default function DinoGame() {
 
     const state: GameState = {
       status: "ready",
-      dinoY: GROUND_Y,
+      catY: GROUND_Y,
       velocity: 0,
       obstacles: [],
       distance: 0,
@@ -142,7 +151,7 @@ export default function DinoGame() {
         state.status = "running";
       } else if (state.status === "over") {
         state.status = "running";
-        state.dinoY = GROUND_Y;
+        state.catY = GROUND_Y;
         state.velocity = 0;
         state.obstacles = [];
         state.distance = 0;
@@ -150,7 +159,7 @@ export default function DinoGame() {
         state.nextSpawn = 900;
         return;
       }
-      if (state.status === "running" && state.dinoY >= GROUND_Y) {
+      if (state.status === "running" && state.catY >= GROUND_Y) {
         state.velocity = JUMP_VELOCITY;
       }
     };
@@ -170,7 +179,7 @@ export default function DinoGame() {
     canvas.addEventListener("pointerdown", onPointerDown);
 
     let raf = 0;
-    const DINO_X = 40;
+    const CAT_X = 40;
 
     const step = (time: number) => {
       const palette = PALETTE[themeRef.current];
@@ -180,9 +189,9 @@ export default function DinoGame() {
 
       if (state.status === "running") {
         state.velocity += GRAVITY * dt;
-        state.dinoY += state.velocity * dt;
-        if (state.dinoY > GROUND_Y) {
-          state.dinoY = GROUND_Y;
+        state.catY += state.velocity * dt;
+        if (state.catY > GROUND_Y) {
+          state.catY = GROUND_Y;
           state.velocity = 0;
         }
 
@@ -199,12 +208,12 @@ export default function DinoGame() {
         for (const ob of state.obstacles) ob.x -= RUN_SPEED * dt;
         state.obstacles = state.obstacles.filter((ob) => ob.x + ob.width > -10);
 
-        const dinoTop = state.dinoY - DINO_H;
+        const catTop = state.catY - CAT_H;
         for (const ob of state.obstacles) {
           const obTop = GROUND_Y - ob.height;
-          const overlapX = DINO_X + DINO_W * 0.7 > ob.x && DINO_X + DINO_W * 0.35 < ob.x + ob.width;
-          const overlapY = state.dinoY > obTop + 4;
-          if (overlapX && overlapY && dinoTop < GROUND_Y) {
+          const overlapX = CAT_X + CAT_W * 0.7 > ob.x && CAT_X + CAT_W * 0.35 < ob.x + ob.width;
+          const overlapY = state.catY > obTop + 4;
+          if (overlapX && overlapY && catTop < GROUND_Y) {
             state.status = "over";
             if (state.score > state.best) {
               state.best = state.score;
@@ -223,9 +232,9 @@ export default function DinoGame() {
       ctx.lineTo(WIDTH, GROUND_Y + 2);
       ctx.stroke();
 
-      const airborne = state.dinoY < GROUND_Y;
+      const airborne = state.catY < GROUND_Y;
       const legPhase: 0 | 1 = Math.floor(state.distance / 12) % 2 === 0 ? 0 : 1;
-      drawDino(ctx, DINO_X, state.dinoY, palette.ink, palette.surface, airborne, legPhase);
+      drawCat(ctx, CAT_X, state.catY, palette.ink, palette.surface, airborne, legPhase);
 
       ctx.fillStyle = palette.brand;
       for (const ob of state.obstacles) {
@@ -263,7 +272,7 @@ export default function DinoGame() {
       ref={canvasRef}
       role="button"
       tabIndex={0}
-      aria-label="Dino jump game — press space or tap to play while you wait"
+      aria-label="Cat jump game — press space or tap to play while you wait"
       className="border-line bg-surface cursor-pointer touch-none rounded-lg border"
       style={{ width: "100%", maxWidth: WIDTH, height: "auto", aspectRatio: `${WIDTH} / ${HEIGHT}` }}
     />
