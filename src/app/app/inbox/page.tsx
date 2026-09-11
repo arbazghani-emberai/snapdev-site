@@ -26,6 +26,7 @@ import {
 } from "@/components/icons";
 import ScheduleModal from "@/components/ScheduleModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
+import DinoGame from "@/components/DinoGame";
 import { useSession } from "@/components/SessionProvider";
 import { useProjects } from "@/components/ProjectsProvider";
 import { ONLINE_ENGINEERS, type Project } from "@/data/app";
@@ -42,6 +43,11 @@ const SHARED_ITEM_ICON: Record<"file" | "image" | "snippet", IconComponent> = {
   image: ImageIcon,
   snippet: Code,
 };
+
+/** `session.startedAt` values that have already played their "connecting"
+ *  beat, so revisiting the inbox page doesn't replay it for a session
+ *  that's already under way. */
+const connectedSessionIds = new Set<number>();
 
 function Avatar({ engineer, size }: { engineer: Engineer; size: number }) {
   return (
@@ -134,18 +140,25 @@ function InboxPageInner() {
   }, []);
 
   // Whenever a new session starts (guest bootstrap or "Get unstuck"), jump
-  // the detail pane to it and show a brief "connecting" beat - reset during
-  // render, not an effect, per React's "adjusting state when props change" pattern.
-  const [prevStartedAt, setPrevStartedAt] = useState(session?.startedAt);
-  if (session && session.startedAt !== prevStartedAt) {
-    setPrevStartedAt(session.startedAt);
+  // the detail pane to it and show a brief "connecting" beat. Tracked in a
+  // module-level set rather than component state: "Get unstuck" calls
+  // startSession() and router.push()es here *before* this page mounts, so a
+  // state initializer reading session.startedAt at mount would already see
+  // it as "current" and never detect the change - only the guest-bootstrap
+  // path (session starts null, set after mount) would ever show this beat.
+  useEffect(() => {
+    if (!session || connectedSessionIds.has(session.startedAt)) return;
+    connectedSessionIds.add(session.startedAt);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time reaction to a new session id, not derivable from props/state during render
     setSelected(true);
     setConnecting(true);
-  }
+  }, [session?.startedAt]);
 
   useEffect(() => {
     if (!connecting) return;
-    const timer = setTimeout(() => setConnecting(false), 1600);
+    // Long enough to leave room for a couple of rounds of the waiting-screen
+    // game rather than flashing by.
+    const timer = setTimeout(() => setConnecting(false), 7000);
     return () => clearTimeout(timer);
   }, [connecting]);
 
@@ -211,6 +224,21 @@ function InboxPageInner() {
     : undefined;
 
   const showLive = selected && !!session;
+
+  // A full takeover, not just the message pane - nothing to see yet since
+  // no specific engineer has picked up the request, so there's no inbox
+  // chrome (list, header, side panels) to show alongside it either.
+  if (connecting) {
+    return (
+      <div className="bg-surface fixed inset-x-0 bottom-0 top-16 flex flex-col items-center justify-center gap-6 px-4 text-center">
+        <div className="flex items-center gap-2.5">
+          <span className="border-line border-t-brand size-5 animate-spin rounded-full border-2" />
+          <p className="text-ink text-[17px] font-semibold">Connecting with an engineer...</p>
+        </div>
+        <DinoGame />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-surface fixed inset-x-0 bottom-0 top-16 grid grid-cols-1 overflow-hidden md:grid-cols-[320px_1fr]">
@@ -324,14 +352,7 @@ function InboxPageInner() {
               </div>
             </div>
 
-            {connecting ? (
-              <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center">
-                <span className="border-line border-t-brand size-9 animate-spin rounded-full border-[3px]" />
-                <p className="text-ink-2 text-[13.5px]">Connecting with {engineerFirstName}...</p>
-              </div>
-            ) : (
-              <>
-                <div className="flex flex-1 justify-center overflow-y-auto px-4 py-5">
+            <div className="flex flex-1 justify-center overflow-y-auto px-4 py-5">
                   <div className="flex w-full max-w-[640px] flex-col gap-3.5">
                     <div className="text-ink-3 text-center text-[12.5px]">
                       Today · your first session is on us, up to 30 min
@@ -582,8 +603,6 @@ function InboxPageInner() {
                     </div>
                   </form>
                 )}
-              </>
-            )}
           </div>
 
           {/* Session modules */}
