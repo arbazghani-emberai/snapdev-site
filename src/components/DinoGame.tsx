@@ -12,9 +12,67 @@ const RUN_SPEED = 260;
 const BEST_SCORE_KEY = "snapdev-dino-best";
 
 const PALETTE = {
-  light: { ink: "#131313", ink2: "#a3a3a3", line: "#e5e5e5", brand: "#3d6df2" },
-  dark: { ink: "#f2f2f2", ink2: "#71717a", line: "#2c2d33", brand: "#5c85ff" },
+  light: { ink: "#131313", ink2: "#a3a3a3", line: "#e5e5e5", brand: "#3d6df2", surface: "#ffffff" },
+  dark: { ink: "#f2f2f2", ink2: "#71717a", line: "#2c2d33", brand: "#5c85ff", surface: "#17181c" },
 };
+
+const DINO_W = 32;
+const DINO_H = 30;
+
+/** A blocky T-rex silhouette (torso, a dragging tail, a head with an open
+ *  jaw, a stubby arm, a punched-out eye) with stepping legs while running
+ *  and a tucked pose in the air - the Chrome-dino-game shorthand for "you're
+ *  waiting for something", drawn as our own shape rather than that sprite. */
+function drawDino(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  groundY: number,
+  ink: string,
+  surface: string,
+  airborne: boolean,
+  legPhase: 0 | 1,
+) {
+  const bodyTop = groundY - DINO_H;
+
+  ctx.fillStyle = ink;
+
+  // Tail, dragging back and down off the lower back.
+  ctx.beginPath();
+  ctx.moveTo(x + 4, bodyTop + 15);
+  ctx.lineTo(x - 5, bodyTop + 19);
+  ctx.lineTo(x + 4, bodyTop + 22);
+  ctx.closePath();
+  ctx.fill();
+
+  // Torso, rising into the neck.
+  ctx.fillRect(x + 4, bodyTop + 10, 20, 14);
+  ctx.fillRect(x + 8, bodyTop + 4, 12, 8);
+
+  // Head and open jaw.
+  ctx.fillRect(x + 20, bodyTop, 10, 12);
+  ctx.fillRect(x + 28, bodyTop + 6, 4, 4);
+
+  // Stubby arm.
+  ctx.fillRect(x + 18, bodyTop + 16, 4, 3);
+
+  // Eye.
+  ctx.fillStyle = surface;
+  ctx.fillRect(x + 25, bodyTop + 3, 4, 4);
+
+  // Legs: alternating stride while grounded, tucked together in the air.
+  ctx.fillStyle = ink;
+  const legTop = bodyTop + 24;
+  if (airborne) {
+    ctx.fillRect(x + 6, legTop, 6, 6);
+    ctx.fillRect(x + 15, legTop, 6, 6);
+  } else if (legPhase === 0) {
+    ctx.fillRect(x + 5, legTop, 6, 6);
+    ctx.fillRect(x + 16, legTop, 6, 3);
+  } else {
+    ctx.fillRect(x + 5, legTop, 6, 3);
+    ctx.fillRect(x + 16, legTop, 6, 6);
+  }
+}
 
 type Obstacle = { x: number; width: number; height: number };
 
@@ -112,7 +170,6 @@ export default function DinoGame() {
     canvas.addEventListener("pointerdown", onPointerDown);
 
     let raf = 0;
-    const DINO_SIZE = 26;
     const DINO_X = 40;
 
     const step = (time: number) => {
@@ -142,10 +199,10 @@ export default function DinoGame() {
         for (const ob of state.obstacles) ob.x -= RUN_SPEED * dt;
         state.obstacles = state.obstacles.filter((ob) => ob.x + ob.width > -10);
 
-        const dinoTop = state.dinoY - DINO_SIZE;
+        const dinoTop = state.dinoY - DINO_H;
         for (const ob of state.obstacles) {
           const obTop = GROUND_Y - ob.height;
-          const overlapX = DINO_X + DINO_SIZE * 0.75 > ob.x && DINO_X + DINO_SIZE * 0.25 < ob.x + ob.width;
+          const overlapX = DINO_X + DINO_W * 0.7 > ob.x && DINO_X + DINO_W * 0.35 < ob.x + ob.width;
           const overlapY = state.dinoY > obTop + 4;
           if (overlapX && overlapY && dinoTop < GROUND_Y) {
             state.status = "over";
@@ -166,10 +223,9 @@ export default function DinoGame() {
       ctx.lineTo(WIDTH, GROUND_Y + 2);
       ctx.stroke();
 
-      ctx.fillStyle = palette.ink;
-      const dinoTop = state.dinoY - DINO_SIZE;
-      const squash = state.status === "running" && state.dinoY >= GROUND_Y ? Math.abs(Math.sin(state.distance / 12)) * 3 : 0;
-      ctx.fillRect(DINO_X, dinoTop + squash, DINO_SIZE, DINO_SIZE - squash);
+      const airborne = state.dinoY < GROUND_Y;
+      const legPhase: 0 | 1 = Math.floor(state.distance / 12) % 2 === 0 ? 0 : 1;
+      drawDino(ctx, DINO_X, state.dinoY, palette.ink, palette.surface, airborne, legPhase);
 
       ctx.fillStyle = palette.brand;
       for (const ob of state.obstacles) {
