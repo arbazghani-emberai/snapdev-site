@@ -1,17 +1,18 @@
 <!--
-  Subscription confirmation email — SnapDev brand.
+  Subscription confirmation email, SnapDev brand.
 
   Sample values below (e.g. "Aimen Fatima", "$999 USD", the invoice links)
-  are stand-ins for whatever your email/templating system uses — swap them
+  are stand-ins for whatever your email/templating system uses, swap them
   for that system's variable syntax before wiring this into a send. The
   "Unsubscribe / Privacy Policy / Terms of Service" footer links point at
-  "#" for the same reason — point them at the real pages once they exist.
+  "#" for the same reason, point them at the real pages once they exist.
 
-  Table-based layout, inline styles, and an inline SVG logo throughout,
+  Table-based layout, inline styles, and inline SVG (the logo, plus the
+  small document/mail icons - Iconsax "Linear" variant paths) throughout,
   since email clients don't reliably support external CSS or modern
   layout. Very old Outlook desktop builds (the Word-rendering ones) can be
-  inconsistent with inline SVG - swap the logo for a PNG export if that
-  audience matters for this send.
+  inconsistent with inline SVG - swap the logo/icons for PNG exports if
+  that audience matters for this send.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -85,7 +86,7 @@
               <td style="padding: 28px 32px 0 32px;">
                 <p style="margin: 0 0 16px 0; color: #131313; font-size: 16px; line-height: 1.5;">Hey Aimen Fatima,</p>
                 <p style="margin: 0; color: #131313; font-size: 16px; line-height: 1.6;">
-                  Thanks for subscribing — your SnapDev Partner membership is now active, and we're thrilled to have
+                  Thanks for subscribing, your SnapDev Partner membership is now active, and we're thrilled to have
                   you with us.
                 </p>
               </td>
@@ -133,7 +134,7 @@
                   <tr>
                     <td style="padding: 18px 20px;">
                       <p style="margin: 0 0 10px 0; color: #131313; font-size: 14px; font-weight: 700;">
-                        📄 Invoice details
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align: -4px; margin-right: 6px;" xmlns="http://www.w3.org/2000/svg"><path d="M21 7v10c0 3-1.5 5-5 5H8c-3.5 0-5-2-5-5V7c0-3 1.5-5 5-5h8c3.5 0 5 2 5 5Z" stroke="#131313" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 4.5v2c0 1.1.9 2 2 2h2M8 13h4M8 17h8" stroke="#131313" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg>Invoice details
                       </p>
                       <p style="margin: 0; color: #525252; font-size: 13.5px; line-height: 1.9;">
                         <strong style="color: #131313;">Amount:</strong> $999 USD<br />
@@ -162,7 +163,7 @@
               <td style="padding: 28px 32px 0 32px;">
                 <p style="margin: 0 0 10px 0; color: #131313; font-size: 15px; font-weight: 700;">Need help?</p>
                 <p style="margin: 0; color: #525252; font-size: 14px; line-height: 1.6;">
-                  ✉️
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: -3px; margin-right: 6px;" xmlns="http://www.w3.org/2000/svg"><path d="M17 20.5H7c-3 0-5-1.5-5-5v-7c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v7c0 3.5-2 5-5 5Z" stroke="#525252" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/><path d="m17 9-3.13 2.5c-1.03.82-2.72.82-3.75 0L7 9" stroke="#525252" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   <a href="mailto:team@snapdev.ai" style="color: #3d6df2; text-decoration: underline;"
                     >team@snapdev.ai</a
                   >
