@@ -1,0 +1,194 @@
+<!--
+  Subscription confirmation email — SnapDev brand.
+
+  Sample values below ({{customerName}}, {{amount}}, etc. shown as literal
+  text like "Aimen Fatima" / "$999 USD") are stand-ins for whatever your
+  email/templating system uses — swap them for that system's variable
+  syntax before wiring this into a send. Table-based layout and inline
+  styles throughout since email clients don't reliably support external
+  CSS or modern layout.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SnapDev Membership Confirmation</title>
+    <!--[if mso]>
+    <noscript>
+      <xml>
+        <o:OfficeDocumentSettings>
+          <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+      </xml>
+    </noscript>
+    <![endif]-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #f5f7fa; -webkit-text-size-adjust: 100%;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f7fa;">
+      <tr>
+        <td align="center" style="padding: 32px 16px;">
+          <table
+            role="presentation"
+            width="600"
+            cellpadding="0"
+            cellspacing="0"
+            style="
+              width: 100%;
+              max-width: 600px;
+              background-color: #ffffff;
+              border-radius: 16px;
+              overflow: hidden;
+              font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            "
+          >
+            <!-- Header -->
+            <tr>
+              <td align="center" style="background-color: #3d6df2; padding: 32px 24px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td
+                      style="
+                        color: #ffffff;
+                        font-size: 22px;
+                        font-weight: 700;
+                        letter-spacing: -0.02em;
+                        text-align: center;
+                      "
+                    >
+                      SnapDev Membership Confirmation 🚀
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Body -->
+            <tr>
+              <td style="padding: 32px 32px 8px 32px;">
+                <p style="margin: 0 0 16px 0; color: #131313; font-size: 16px; line-height: 1.5;">
+                  Hey Aimen Fatima,
+                </p>
+                <p style="margin: 0 0 24px 0; color: #131313; font-size: 16px; line-height: 1.6;">
+                  Your SnapDev Partner membership is now active 🎉 and we're thrilled to have you with us!
+                </p>
+              </td>
+            </tr>
+
+            <!-- Invoice card -->
+            <tr>
+              <td style="padding: 0 32px 24px 32px;">
+                <table
+                  role="presentation"
+                  width="100%"
+                  cellpadding="0"
+                  cellspacing="0"
+                  style="background-color: #f5f7fa; border-radius: 8px; border-left: 4px solid #3d6df2;"
+                >
+                  <tr>
+                    <td style="padding: 20px 24px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td
+                            style="
+                              color: #131313;
+                              font-size: 15px;
+                              font-weight: 700;
+                              padding-bottom: 14px;
+                            "
+                          >
+                            📄 Your Invoice
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="color: #525252; font-size: 13.5px; line-height: 1.9; padding-bottom: 16px;">
+                            <strong style="color: #131313;">Amount:</strong> $999 USD<br />
+                            <strong style="color: #131313;">Date:</strong> 2026-09-02<br />
+                            <strong style="color: #131313;">Transaction ID:</strong> sub_1UBJ2ePpWoJmR6l7Pegj4hcv
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <table role="presentation" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td style="padding-right: 10px;">
+                                  <a
+                                    href="#"
+                                    style="
+                                      display: inline-block;
+                                      background-color: #3d6df2;
+                                      color: #ffffff;
+                                      font-size: 13.5px;
+                                      font-weight: 700;
+                                      text-decoration: none;
+                                      padding: 11px 22px;
+                                      border-radius: 999px;
+                                    "
+                                  >
+                                    View Invoice
+                                  </a>
+                                </td>
+                                <td>
+                                  <a
+                                    href="#"
+                                    style="
+                                      display: inline-block;
+                                      background-color: #eaf1fd;
+                                      color: #2f56c9;
+                                      font-size: 13.5px;
+                                      font-weight: 700;
+                                      text-decoration: none;
+                                      padding: 11px 22px;
+                                      border-radius: 999px;
+                                    "
+                                  >
+                                    Download PDF
+                                  </a>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Help + sign-off -->
+            <tr>
+              <td style="padding: 0 32px 32px 32px;">
+                <p style="margin: 0 0 6px 0; color: #131313; font-size: 15px; font-weight: 700;">Need help?</p>
+                <p style="margin: 0 0 24px 0; color: #525252; font-size: 14px; line-height: 1.6;">
+                  If anything's unclear or you need assistance, feel free to reach out at
+                  <a href="mailto:team@snapdev.ai" style="color: #3d6df2; text-decoration: underline;"
+                    >team@snapdev.ai</a
+                  >. We're here to support you.
+                </p>
+                <p style="margin: 0 0 24px 0; color: #525252; font-size: 14px; line-height: 1.6;">
+                  Thanks again for choosing SnapDev. We can't wait to see what you'll build.
+                </p>
+                <p style="margin: 0; color: #131313; font-size: 14px; line-height: 1.6;">
+                  <strong>Qasim</strong><br />
+                  Founder, SnapDev
+                </p>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td align="center" style="background-color: #131313; padding: 18px 24px;">
+                <p style="margin: 0; color: #a3a3a3; font-size: 12.5px;">© SnapDev · All rights reserved</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
