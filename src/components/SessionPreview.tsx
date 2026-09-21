@@ -130,7 +130,7 @@ export default function SessionPreview() {
         <button
           type="button"
           onClick={() => setBookOpen(true)}
-          className="bg-ink hover:bg-ink/85 shrink-0 rounded-full px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition"
+          className="bg-brand hover:bg-brand-ink shrink-0 rounded-full px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition"
         >
           Claim my free hour
         </button>
