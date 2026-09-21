@@ -54,10 +54,8 @@ export default function SessionPreview() {
 
           <ul className="mt-4 flex flex-col gap-3">
             {PROBLEMS.map((problem) => (
-              <li key={problem} className="flex items-start gap-3 text-[14px] leading-snug">
-                <span className="grid w-9 shrink-0 place-items-start pt-0.5">
-                  <X className="text-danger size-4" strokeWidth={2.5} />
-                </span>
+              <li key={problem} className="flex items-start gap-2 text-[14px] leading-snug">
+                <X className="text-danger mt-0.5 size-4 shrink-0" strokeWidth={2.5} />
                 <span className="text-ink-2">{problem}</span>
               </li>
             ))}
@@ -85,10 +83,8 @@ export default function SessionPreview() {
 
           <ul className="mt-4 flex flex-col gap-3">
             {SOLUTIONS.map((solution) => (
-              <li key={solution} className="flex items-start gap-3 text-[14px] leading-snug">
-                <span className="grid w-9 shrink-0 place-items-start pt-0.5">
-                  <Check className="text-online size-4" strokeWidth={2.5} />
-                </span>
+              <li key={solution} className="flex items-start gap-2 text-[14px] leading-snug">
+                <Check className="text-online mt-0.5 size-4 shrink-0" strokeWidth={2.5} />
                 <span className="text-ink-2">{solution}</span>
               </li>
             ))}
