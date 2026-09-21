@@ -5,18 +5,15 @@ export default function WhyItHappensSection() {
     <section aria-labelledby="why-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-14">
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal>
-          <span className="text-brand text-[13px] font-bold tracking-[0.06em] uppercase">Why it happens</span>
           <h2
             id="why-heading"
-            className="font-heading mt-2 max-w-[18ch] text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
+            className="font-heading max-w-[18ch] text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             AI is a brilliant builder. It&apos;s a terrible launcher.
           </h2>
           <p className="text-ink-2 mt-4 max-w-[62ch] text-[15px] leading-relaxed">
-            AI tools are great at screens and features. That&apos;s how you got this far without writing code.
-            Getting an app live is a different job. Hosting, security, payments and data are where one small
-            mistake takes everything down, and a guess makes it worse. That part needs someone who has done it
-            hundreds of times.
+            AI is great at screens and features, that&apos;s how you got this far. Hosting, security, and payments
+            are where one small mistake takes everything down.
           </p>
         </Reveal>
 
