@@ -2,7 +2,7 @@ import Reveal from "./Reveal";
 
 export default function WhyItHappensSection() {
   return (
-    <section aria-labelledby="why-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-24">
+    <section aria-labelledby="why-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-36">
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal className="flex flex-wrap items-start justify-between gap-6">
           <h2
