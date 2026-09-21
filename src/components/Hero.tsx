@@ -18,9 +18,9 @@ export default function Hero() {
             <span className="text-brand">the last 20%</span>.
           </h1>
 
-          <p className="text-ink-2 mx-auto mt-4.5 max-w-[44ch] text-[18.5px] leading-[1.5]">
-            Match with a vetted engineer and work through your problem live, at a
-            fraction of what a dev shop would charge.
+          <p className="text-ink-2 mx-auto mt-4.5 max-w-[52ch] text-[18.5px] leading-[1.5]">
+            Tell us where you&apos;re stuck and we match you with a vetted senior engineer. Your first hour is free.
+            We&apos;re giving away the first 1,000.
           </p>
 
           <ol className="text-ink-2 mt-7 flex flex-wrap items-center justify-center gap-x-3.5 gap-y-2.5 text-[15px]">
