@@ -14,7 +14,7 @@ export default function ProblemSection() {
   return (
     <section
       aria-labelledby="problem-heading"
-      className="bg-surface-2 relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 rounded-xl py-52 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
+      className="bg-surface-2 relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 rounded-xl py-24 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
     >
       <div className="px-5 sm:px-6 lg:px-8">
         <Reveal className="text-center">
