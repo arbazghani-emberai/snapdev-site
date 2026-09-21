@@ -4,7 +4,7 @@ export default function WhyItHappensSection() {
   return (
     <section aria-labelledby="why-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-14">
       <div className="px-5 sm:px-10 lg:px-14">
-        <Reveal className="flex flex-wrap items-end justify-between gap-6">
+        <Reveal className="flex flex-wrap items-start justify-between gap-6">
           <h2
             id="why-heading"
             className="font-heading max-w-[18ch] text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
