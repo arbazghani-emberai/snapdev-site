@@ -66,7 +66,7 @@ export default function LaunchOfferSection() {
                     <p className="text-ink-2 mt-1 text-[13.5px] leading-relaxed">{item.body}</p>
                   </div>
                 </div>
-                <span className="text-ink-3 font-mono shrink-0 text-[13px] whitespace-nowrap">{item.value}</span>
+                <span className="text-ink-3 shrink-0 text-[13px] whitespace-nowrap">{item.value}</span>
               </div>
             ))}
           </div>
