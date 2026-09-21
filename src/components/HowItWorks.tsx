@@ -27,10 +27,9 @@ export default function HowItWorks() {
     >
       <div className="mx-auto flex min-h-[520px] max-w-[1500px] flex-col justify-center px-6 sm:px-10 md:px-14">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <span className="text-brand text-[13px] font-bold tracking-[0.06em] uppercase">How it works</span>
           <h2
             id="how-heading"
-            className="font-heading mt-2 text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
+            className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             Unstuck in three steps. No tech knowledge needed.
           </h2>

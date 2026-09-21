@@ -85,10 +85,9 @@ export default function PricingComparisonSection() {
     >
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal>
-          <span className="text-brand text-[13px] font-bold tracking-[0.06em] uppercase">After your free hour</span>
           <h2
             id="pricing-comparison-heading"
-            className="font-heading mt-2 text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
+            className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             Senior engineers.
             <br />
