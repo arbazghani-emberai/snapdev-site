@@ -15,10 +15,9 @@ export default function ProblemSection() {
     <section aria-labelledby="problem-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-14">
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal>
-          <span className="text-brand text-[13px] font-bold tracking-[0.06em] uppercase">The problem</span>
           <h2
             id="problem-heading"
-            className="font-heading mt-2 text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
+            className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             Sound familiar?
           </h2>
