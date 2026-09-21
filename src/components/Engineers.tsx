@@ -97,7 +97,7 @@ function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => 
             }}
             className={
               online
-                ? "bg-ink hover:bg-ink/85 w-full rounded-full py-3 text-[13.5px] font-semibold text-white transition"
+                ? "bg-brand hover:bg-brand-ink w-full rounded-full py-3 text-[13.5px] font-semibold text-white transition"
                 : "border-line hover:bg-surface-2 w-full rounded-full border py-3 text-[13.5px] font-semibold transition"
             }
           >
