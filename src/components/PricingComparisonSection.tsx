@@ -25,13 +25,12 @@ const COMPARISON = [
 const PLANS = [
   {
     name: "Starter",
-    badge: "Current" as const,
+    badge: null,
     price: "$19",
     hours: "Pay as you go",
     rate: "$60/hr",
     off: null,
-    cta: "Current plan",
-    current: true,
+    cta: "Buy Starter",
   },
   {
     name: "Pro",
@@ -41,7 +40,6 @@ const PLANS = [
     rate: "$55/hr",
     off: "8% off",
     cta: "Buy Pro",
-    current: false,
   },
   {
     name: "Pro+",
@@ -51,7 +49,6 @@ const PLANS = [
     rate: "$50/hr",
     off: "17% off",
     cta: "Buy Pro+",
-    current: false,
   },
   {
     name: "Growth",
@@ -61,7 +58,6 @@ const PLANS = [
     rate: "$45/hr",
     off: "25% off",
     cta: "Buy Growth",
-    current: false,
   },
   {
     name: "Partner",
@@ -71,7 +67,6 @@ const PLANS = [
     rate: "$39/hr",
     off: "35% off",
     cta: "Buy Partner",
-    current: false,
   },
 ];
 
@@ -154,25 +149,15 @@ export default function PricingComparisonSection() {
                   <div className="text-ink-3 mt-1 text-[13px]">$19 platform fee</div>
                 </div>
 
-                {plan.current ? (
-                  <button
-                    type="button"
-                    disabled
-                    className="bg-surface-2 text-ink-3 mt-6 w-full cursor-default rounded-full py-3 text-[14px] font-semibold"
-                  >
-                    {plan.cta}
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setBookOpen(true)}
-                    className={`mt-6 w-full rounded-full py-3 text-[14px] font-semibold text-white transition ${
-                      plan.badge === "Popular" ? "bg-brand hover:bg-brand-ink" : "bg-ink hover:bg-ink/85"
-                    }`}
-                  >
-                    {plan.cta}
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={() => setBookOpen(true)}
+                  className={`mt-6 w-full rounded-full py-3 text-[14px] font-semibold text-white transition ${
+                    plan.badge === "Popular" ? "bg-brand hover:bg-brand-ink" : "bg-ink hover:bg-ink/85"
+                  }`}
+                >
+                  {plan.cta}
+                </button>
               </div>
             </Reveal>
           ))}
