@@ -21,12 +21,15 @@ export default function ProblemSection() {
           >
             Sound familiar?
           </h2>
+          <p className="text-ink-2 mx-auto mt-4 w-full text-[14.5px] font-medium">
+            You&apos;re not bad at this. You&apos;re missing one thing: a real engineer in your corner.
+          </p>
         </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {PROBLEMS.map(({ text, icon: Icon }, i) => (
             <Reveal key={text} delay={Math.min(i * 0.06, 0.4)}>
-              <div className="border-line flex h-full flex-col gap-4 rounded-xl border p-5">
+              <div className="border-line hover:border-ink-3 flex h-full flex-col gap-4 rounded-xl border p-5 transition hover:-translate-y-0.5 hover:shadow-sm">
                 <span className="bg-surface-2 text-ink-2 grid size-10 shrink-0 place-items-center rounded-full">
                   <Icon className="size-5" strokeWidth={2} />
                 </span>
@@ -35,12 +38,6 @@ export default function ProblemSection() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal delay={0.3}>
-          <p className="font-heading mt-10 max-w-[24ch] text-[26px] leading-[1.2] font-semibold tracking-tight md:text-[30px]">
-            You&apos;re not bad at this. You&apos;re missing one thing: a real engineer in your corner.
-          </p>
-        </Reveal>
       </div>
     </section>
   );
