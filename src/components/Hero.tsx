@@ -1,4 +1,4 @@
-import ChatWidget from "./ChatWidget";
+import SessionPreview from "./SessionPreview";
 import TopoLines from "./TopoLines";
 import HeroGradient from "./HeroGradient";
 import Reveal from "./Reveal";
@@ -22,8 +22,8 @@ export default function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.15} className="mx-auto w-full max-w-3xl text-left">
-          <ChatWidget />
+        <Reveal delay={0.15} className="mx-auto w-full max-w-4xl">
+          <SessionPreview />
         </Reveal>
       </div>
     </section>
