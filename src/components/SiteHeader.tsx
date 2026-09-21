@@ -66,22 +66,16 @@ export default function SiteHeader() {
           <div className="hidden items-center gap-2.5 md:flex">
             <Link
               href="/login"
-              className="text-ink-2 hover:bg-surface-2 hover:text-ink rounded-full px-4 py-2 text-[14px] font-medium transition"
-            >
-              Log in
-            </Link>
-            <Link
-              href="/signup"
               className="border-line hover:bg-surface-2 rounded-full border px-5 py-2.5 text-[14px] font-medium transition"
             >
-              Get started
+              Log in
             </Link>
             <button
               type="button"
               onClick={() => setBookOpen(true)}
-              className="bg-brand hover:bg-brand-ink rounded-full px-5 py-2.5 text-[14px] font-medium text-white transition"
+              className="bg-ink hover:bg-ink/85 rounded-full px-5 py-2.5 text-[14px] font-medium text-white transition"
             >
-              Book a free session
+              Claim my free hour
             </button>
           </div>
 
@@ -146,16 +140,9 @@ export default function SiteHeader() {
         <Link
           href="/login"
           onClick={() => setOpen(false)}
-          className="text-ink-2 hover:bg-surface-2 hover:text-ink w-full rounded-full px-4 py-3 text-left text-[15px] font-medium transition"
-        >
-          Log in
-        </Link>
-        <Link
-          href="/signup"
-          onClick={() => setOpen(false)}
           className="border-line hover:bg-surface-2 w-full rounded-full border px-5 py-3 text-left text-[15px] font-medium transition"
         >
-          Get started
+          Log in
         </Link>
         <button
           type="button"
@@ -163,9 +150,9 @@ export default function SiteHeader() {
             setOpen(false);
             setBookOpen(true);
           }}
-          className="bg-brand hover:bg-brand-ink w-full rounded-full px-5 py-3 text-[15px] font-medium text-white transition"
+          className="bg-ink hover:bg-ink/85 w-full rounded-full px-5 py-3 text-[15px] font-medium text-white transition"
         >
-          Book a free session
+          Claim my free hour
         </button>
       </div>
 
