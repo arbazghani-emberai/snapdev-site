@@ -92,8 +92,8 @@ export default function SessionPreview() {
         </div>
       </div>
 
-      <div className="mt-5 flex w-full items-center gap-3">
-        <div className="border-line bg-surface flex min-w-0 flex-1 items-center justify-between gap-3 rounded-full border px-5 py-2.5 shadow-sm">
+      <div className="mt-5 flex w-full items-stretch gap-3">
+        <div className="border-line bg-surface flex min-w-0 flex-1 items-center justify-between gap-3 rounded-full border px-5 py-2.5">
           <span className="flex min-w-0 items-center gap-2.5">
             <span className="relative flex size-2.5 shrink-0">
               <span className="bg-online absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" />
@@ -126,7 +126,7 @@ export default function SessionPreview() {
         <button
           type="button"
           onClick={() => setBookOpen(true)}
-          className="bg-brand hover:bg-brand-ink shrink-0 rounded-full px-5 py-2.5 text-[14px] font-medium whitespace-nowrap text-white transition"
+          className="bg-brand hover:bg-brand-ink flex shrink-0 items-center justify-center rounded-full px-5 text-[14px] font-medium whitespace-nowrap text-white transition"
         >
           Claim my free hour
         </button>
