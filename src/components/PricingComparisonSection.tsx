@@ -110,7 +110,7 @@ export default function PricingComparisonSection() {
           {PLANS.map((plan, i) => (
             <Reveal key={plan.name} delay={Math.min(0.2 + i * 0.06, 0.5)}>
               <div
-                className={`relative flex h-full flex-col rounded-2xl border p-6 pt-8 ${
+                className={`relative flex h-full flex-col rounded-3xl border p-6 pt-8 ${
                   plan.badge === "Popular" ? "border-brand bg-brand-wash" : "border-line-2 bg-surface"
                 }`}
               >
