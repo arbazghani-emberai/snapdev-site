@@ -39,15 +39,14 @@ export default function LaunchOfferSection() {
   return (
     <section aria-labelledby="offer-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-24">
       <div className="px-5 sm:px-10 lg:px-14">
-        <Reveal>
-          <span className="text-brand text-[13px] font-bold tracking-[0.06em] uppercase">The offer</span>
+        <Reveal className="text-center">
           <h2
             id="offer-heading"
-            className="font-heading mt-2 text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
+            className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             The Launch Hour, free
           </h2>
-          <p className="text-ink-2 mt-4 max-w-[62ch] text-[15px] leading-relaxed">
+          <p className="text-ink-2 mx-auto mt-4 max-w-[62ch] text-[15px] leading-relaxed">
             Sixty minutes with a vetted senior engineer, completely free while the Founding 1,000 lasts. Here&apos;s
             everything that&apos;s in it.
           </p>
