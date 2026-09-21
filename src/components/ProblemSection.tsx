@@ -29,14 +29,14 @@ export default function ProblemSection() {
           </p>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {PROBLEMS.map(({ text, icon: Icon }, i) => (
             <Reveal key={text} delay={Math.min(i * 0.06, 0.4)}>
-              <div className="border-line hover:border-ink-3 bg-surface flex h-full flex-col gap-4 rounded-xl border p-5 transition hover:-translate-y-0.5 hover:shadow-sm">
-                <span className="bg-surface-2 text-ink-2 grid size-10 shrink-0 place-items-center rounded-full">
+              <div className="border-line-2 hover:border-ink-3 bg-surface flex h-full flex-col rounded-xl border p-7 transition-colors duration-300">
+                <span className="bg-surface-2 text-ink grid size-10 shrink-0 place-items-center rounded-full">
                   <Icon className="size-5" strokeWidth={2} />
                 </span>
-                <p className="text-[15px] leading-snug">{text}</p>
+                <p className="mt-5 text-[15px] leading-relaxed">{text}</p>
               </div>
             </Reveal>
           ))}
