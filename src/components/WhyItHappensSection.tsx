@@ -4,14 +4,14 @@ export default function WhyItHappensSection() {
   return (
     <section aria-labelledby="why-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-14">
       <div className="px-5 sm:px-10 lg:px-14">
-        <Reveal>
+        <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <h2
             id="why-heading"
             className="font-heading max-w-[18ch] text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
             AI is a brilliant builder. It&apos;s a terrible launcher.
           </h2>
-          <p className="text-ink-2 mt-4 max-w-[62ch] text-[15px] leading-relaxed">
+          <p className="text-ink-2 max-w-xs text-[14.5px] leading-relaxed font-medium">
             AI is great at screens and features, that&apos;s how you got this far. Hosting, security, and payments
             are where one small mistake takes everything down.
           </p>
