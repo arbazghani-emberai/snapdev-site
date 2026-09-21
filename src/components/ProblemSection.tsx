@@ -1,13 +1,13 @@
-import { X } from "@/components/icons";
+import { CloudOff, Bug, MessageSquareWarning, CreditCard, ShieldAlert, UserX, type LucideIcon } from "lucide-react";
 import Reveal from "./Reveal";
 
-const PROBLEMS = [
-  "It works on your laptop. The second you try to put it online, everything breaks.",
-  "You fix one bug and the AI quietly breaks three more.",
-  "You've pasted the same error into a chatbot forty times.",
-  'Payments "kind of" work. You wouldn’t bet a real customer on them.',
-  "You have no idea whether your users' data is actually safe.",
-  "An agency quoted $15,000 and three months. A freelancer ghosted you.",
+const PROBLEMS: { text: string; icon: LucideIcon }[] = [
+  { text: "It works on your laptop. The second you try to put it online, everything breaks.", icon: CloudOff },
+  { text: "You fix one bug and the AI quietly breaks three more.", icon: Bug },
+  { text: "You've pasted the same error into a chatbot forty times.", icon: MessageSquareWarning },
+  { text: 'Payments "kind of" work. You wouldn’t bet a real customer on them.', icon: CreditCard },
+  { text: "You have no idea whether your users' data is actually safe.", icon: ShieldAlert },
+  { text: "An agency quoted $15,000 and three months. A freelancer ghosted you.", icon: UserX },
 ];
 
 export default function ProblemSection() {
@@ -24,11 +24,11 @@ export default function ProblemSection() {
         </Reveal>
 
         <div className="mt-8 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
-          {PROBLEMS.map((problem, i) => (
-            <Reveal key={problem} delay={Math.min(i * 0.06, 0.4)}>
+          {PROBLEMS.map(({ text, icon: Icon }, i) => (
+            <Reveal key={text} delay={Math.min(i * 0.06, 0.4)}>
               <div className="border-line flex items-center gap-3 rounded-full border px-5 py-4">
-                <X className="text-danger size-4 shrink-0" strokeWidth={2.5} />
-                <span className="text-[15px] leading-snug">{problem}</span>
+                <Icon className="text-ink-3 size-4 shrink-0" strokeWidth={2} />
+                <span className="text-[15px] leading-snug">{text}</span>
               </div>
             </Reveal>
           ))}
