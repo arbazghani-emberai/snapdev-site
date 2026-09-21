@@ -1,11 +1,13 @@
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import PromoBar from "@/components/PromoBar";
 
 export default function MarketingLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
+      <PromoBar />
       <div className="sticky top-0 z-30">
         <SiteHeader />
       </div>
