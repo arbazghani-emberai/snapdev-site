@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
+import BookFreeSessionModal from "./BookFreeSessionModal";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
 
 function initials(name: string) {
@@ -15,15 +16,18 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-function EngineerCard({ engineer }: { engineer: Engineer }) {
+function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => void }) {
   const { name, role, status, skills, img, hue } = engineer;
+  const firstName = name.split(/\s+/)[0];
+  const online = status === "Online";
 
   return (
     <div className="w-[290px] shrink-0">
-      <button
-        type="button"
+      <div
+        role="button"
+        tabIndex={0}
         aria-label={name}
-        className="group border-line hover:border-ink-3 focus-visible:ring-brand/40 block w-full overflow-hidden rounded-lg border text-left transition focus-visible:ring-2 focus-visible:outline-none"
+        className="group border-line hover:border-ink-3 focus-visible:ring-brand/40 block w-full cursor-pointer overflow-hidden rounded-lg border text-left transition focus-visible:ring-2 focus-visible:outline-none"
       >
         <div
           className="relative aspect-[0.93] overflow-hidden"
@@ -83,13 +87,31 @@ function EngineerCard({ engineer }: { engineer: Engineer }) {
             )}
           </div>
         </div>
-      </button>
+
+        <div className="px-4 pb-4">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onBook();
+            }}
+            className={
+              online
+                ? "bg-ink hover:bg-ink/85 w-full rounded-full py-3 text-[13.5px] font-semibold text-white transition"
+                : "border-line hover:bg-surface-2 w-full rounded-full border py-3 text-[13.5px] font-semibold transition"
+            }
+          >
+            {online ? `Talk to ${firstName} now` : `Book ${firstName}`}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function Engineers() {
   const scroller = useRef<HTMLDivElement>(null);
+  const [bookOpen, setBookOpen] = useState(false);
 
   const scrollBy = (dir: 1 | -1) =>
     scroller.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
@@ -106,10 +128,12 @@ export default function Engineers() {
             id="top-engineers-heading"
             className="font-heading max-w-[18ch] text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px]"
           >
-            Top-Rated Engineers for Your Next Sprint
+            Who you&apos;ll actually be talking to
           </h2>
-          <p className="text-ink-2 mt-4 text-[14.5px] font-medium">
-            Handpicked experts ready to unblock your build.
+          <p className="text-ink-2 mt-4 max-w-[46ch] text-[14.5px] font-medium">
+            Every engineer is interviewed and rated by the founders they work with. The ones with a green dot are
+            free <strong className="font-semibold">right now</strong>. You can be on a call before you finish your
+            coffee.
           </p>
         </Reveal>
 
@@ -139,10 +163,12 @@ export default function Engineers() {
           className="no-scrollbar flex gap-6 overflow-x-auto px-5 pb-4 sm:px-10 lg:px-14"
         >
           {ENGINEERS.map((e, i) => (
-            <EngineerCard key={`${e.name}-${i}`} engineer={e} />
+            <EngineerCard key={`${e.name}-${i}`} engineer={e} onBook={() => setBookOpen(true)} />
           ))}
         </div>
       </Reveal>
+
+      <BookFreeSessionModal open={bookOpen} onClose={() => setBookOpen(false)} />
     </section>
   );
 }
