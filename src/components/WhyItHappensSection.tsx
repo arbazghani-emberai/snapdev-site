@@ -39,7 +39,7 @@ export default function WhyItHappensSection() {
                 <strong className="font-semibold">What AI does well:</strong>{" "}
                 <span className="text-ink-2">screens, features, your first working version.</span>
               </p>
-              <p className="text-[14.5px] leading-relaxed">
+              <p className="text-right text-[14.5px] leading-relaxed">
                 <strong className="font-semibold">What needs an engineer:</strong>{" "}
                 <span className="text-ink-2">
                   hosting, domains, payments, security, backups, and fixing what breaks at 2am.
