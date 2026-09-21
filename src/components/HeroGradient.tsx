@@ -9,9 +9,9 @@ export default function HeroGradient() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {/*
-        Placed at opposite corners and at opposite ends of the lightness ramp -
-        a mid periwinkle and a purple - so the two colours read as distinct
-        accents rather than a single wash.
+        Placed at opposite corners, both in the same periwinkle-blue family
+        (differing in size/opacity/timing) so the motion reads as shifting
+        light rather than two competing accent colours.
       */}
       <span
         className="hero-blob hero-blob-a"
@@ -27,7 +27,7 @@ export default function HeroGradient() {
       <span
         className="hero-blob hero-blob-b"
         style={{
-          background: "var(--color-tint-purple)",
+          background: "var(--color-tint-periwinkle)",
           opacity: 0.35,
           width: "54%",
           height: "56%",
