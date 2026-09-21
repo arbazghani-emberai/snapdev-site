@@ -45,6 +45,9 @@ function EngineerCard({ engineer }: { engineer: Engineer }) {
               {initials(name)}
             </span>
           )}
+          <span className="bg-surface/95 text-ink-3 absolute bottom-2.5 left-2.5 rounded-full px-2.5 py-1 text-[12px] font-semibold shadow-sm">
+            No reviews yet
+          </span>
         </div>
 
         <div className="p-4">
@@ -64,19 +67,20 @@ function EngineerCard({ engineer }: { engineer: Engineer }) {
             </span>
           </div>
 
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {skills.map((s) => (
+          <div className="mt-2.5 flex flex-nowrap items-center gap-1.5 overflow-hidden">
+            {skills.slice(0, 2).map((s) => (
               <span
                 key={s}
-                className="border-line bg-surface text-ink-2 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap"
+                className="border-line bg-surface text-ink-2 shrink-0 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap"
               >
                 {s}
               </span>
             ))}
-          </div>
-
-          <div className="mt-2">
-            <span className="text-ink-3 text-[12.5px]">No reviews yet</span>
+            {skills.length > 2 && (
+              <span className="text-ink-3 shrink-0 rounded-full px-2 py-1 text-[12px] font-medium whitespace-nowrap">
+                +{skills.length - 2}
+              </span>
+            )}
           </div>
         </div>
       </button>
