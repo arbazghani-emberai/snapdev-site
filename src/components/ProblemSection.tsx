@@ -23,12 +23,14 @@ export default function ProblemSection() {
           </h2>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {PROBLEMS.map(({ text, icon: Icon }, i) => (
             <Reveal key={text} delay={Math.min(i * 0.06, 0.4)}>
-              <div className="border-line flex items-center gap-3 rounded-full border px-5 py-4">
-                <Icon className="text-ink-3 size-4 shrink-0" strokeWidth={2} />
-                <span className="text-[15px] leading-snug">{text}</span>
+              <div className="border-line flex h-full flex-col gap-4 rounded-xl border p-5">
+                <span className="bg-surface-2 text-ink-2 grid size-10 shrink-0 place-items-center rounded-full">
+                  <Icon className="size-5" strokeWidth={2} />
+                </span>
+                <p className="text-[15px] leading-snug">{text}</p>
               </div>
             </Reveal>
           ))}
