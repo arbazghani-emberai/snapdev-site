@@ -6,6 +6,7 @@ import LaunchOfferSection from "@/components/LaunchOfferSection";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
 import PricingComparisonSection from "@/components/PricingComparisonSection";
+import PricingPlansSection from "@/components/PricingPlansSection";
 import FinalCta from "@/components/FinalCta";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <HowItWorks />
       <Testimonials />
       <PricingComparisonSection />
+      <PricingPlansSection />
       <FinalCta />
     </>
   );
