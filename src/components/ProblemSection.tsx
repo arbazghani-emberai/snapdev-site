@@ -12,7 +12,10 @@ const PROBLEMS: { text: string; icon: LucideIcon }[] = [
 
 export default function ProblemSection() {
   return (
-    <section aria-labelledby="problem-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-14">
+    <section
+      aria-labelledby="problem-heading"
+      className="bg-surface-2 relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 rounded-xl py-14 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
+    >
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal className="text-center">
           <h2
@@ -29,7 +32,7 @@ export default function ProblemSection() {
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {PROBLEMS.map(({ text, icon: Icon }, i) => (
             <Reveal key={text} delay={Math.min(i * 0.06, 0.4)}>
-              <div className="border-line hover:border-ink-3 flex h-full flex-col gap-4 rounded-xl border p-5 transition hover:-translate-y-0.5 hover:shadow-sm">
+              <div className="border-line hover:border-ink-3 bg-surface flex h-full flex-col gap-4 rounded-xl border p-5 transition hover:-translate-y-0.5 hover:shadow-sm">
                 <span className="bg-surface-2 text-ink-2 grid size-10 shrink-0 place-items-center rounded-full">
                   <Icon className="size-5" strokeWidth={2} />
                 </span>
