@@ -23,10 +23,10 @@ function EngineerCard({ engineer }: { engineer: Engineer }) {
       <button
         type="button"
         aria-label={name}
-        className="group focus-visible:ring-brand/40 w-full rounded-md text-left focus-visible:ring-2 focus-visible:outline-none"
+        className="group border-line hover:border-ink-3 focus-visible:ring-brand/40 block w-full overflow-hidden rounded-lg border text-left transition focus-visible:ring-2 focus-visible:outline-none"
       >
         <div
-          className="relative aspect-[0.93] overflow-hidden rounded-md"
+          className="relative aspect-[0.93] overflow-hidden"
           style={{
             backgroundColor: `oklch(0.90 0.045 ${hue})`,
             color: `oklch(0.32 0.05 ${hue})`,
@@ -47,35 +47,37 @@ function EngineerCard({ engineer }: { engineer: Engineer }) {
           )}
         </div>
 
-        <div className="font-heading mt-4 text-[24px] leading-tight font-semibold tracking-tight">{name}</div>
+        <div className="p-4">
+          <div className="font-heading text-[24px] leading-tight font-semibold tracking-tight">{name}</div>
 
-        <div className="mt-0.5 flex items-center gap-3 text-[13px]">
-          <span className="text-ink-2 truncate font-medium">{role}</span>
-          <span aria-hidden="true" className="bg-line h-3.5 w-px shrink-0" />
-          <span className="text-ink-2 flex shrink-0 items-center gap-1.5 font-medium">
-            <span
-              aria-hidden="true"
-              className={`size-1.5 rounded-full ${
-                status === "Online" ? "bg-online" : "bg-ink-3"
-              }`}
-            />
-            {status}
-          </span>
-        </div>
-
-        <div className="mt-2.5 flex flex-wrap gap-1.5">
-          {skills.map((s) => (
-            <span
-              key={s}
-              className="border-line bg-surface text-ink-2 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap"
-            >
-              {s}
+          <div className="mt-0.5 flex items-center gap-3 text-[13px]">
+            <span className="text-ink-2 truncate font-medium">{role}</span>
+            <span aria-hidden="true" className="bg-line h-3.5 w-px shrink-0" />
+            <span className="text-ink-2 flex shrink-0 items-center gap-1.5 font-medium">
+              <span
+                aria-hidden="true"
+                className={`size-1.5 rounded-full ${
+                  status === "Online" ? "bg-online" : "bg-ink-3"
+                }`}
+              />
+              {status}
             </span>
-          ))}
-        </div>
+          </div>
 
-        <div className="mt-2">
-          <span className="text-ink-3 text-[12.5px]">No reviews yet</span>
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
+            {skills.map((s) => (
+              <span
+                key={s}
+                className="border-line bg-surface text-ink-2 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-2">
+            <span className="text-ink-3 text-[12.5px]">No reviews yet</span>
+          </div>
         </div>
       </button>
     </div>
