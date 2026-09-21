@@ -48,7 +48,7 @@ export default function SessionPreview() {
             </span>
             <div className="min-w-0">
               <div className="text-[15px] font-semibold">Only you</div>
-              <div className="text-ink-3 text-[13px]">no one to ask</div>
+              <div className="text-ink-3 text-[13px]">No support</div>
             </div>
           </div>
 
