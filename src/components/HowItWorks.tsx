@@ -20,7 +20,7 @@ const STEPS = [
 
 function PlaceholderVisual({ kind }: { kind: (typeof STEPS)[number]["visual"] }) {
   return (
-    <div className="border-line-2 bg-surface-2 relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-lg border">
+    <div className="border-line-2 bg-surface-2 relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg border">
       <span className="text-ink-3 absolute top-3 right-3 text-[11px] font-semibold tracking-[0.06em] uppercase">
         Animation placeholder
       </span>
@@ -84,7 +84,7 @@ export default function HowItWorks() {
     <section
       id="how"
       aria-labelledby="how-heading"
-      className="from-wash-blue-soft relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 overflow-hidden rounded-xl bg-gradient-to-b to-white py-24 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
+      className="relative left-1/2 mt-24 w-[calc(100vw-1rem)] -translate-x-1/2 overflow-hidden rounded-xl py-24 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
     >
       <div className="mx-auto max-w-[1500px] px-6 sm:px-10 md:px-14">
         <Reveal className="mx-auto max-w-2xl text-center">
