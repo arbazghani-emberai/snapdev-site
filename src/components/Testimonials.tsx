@@ -84,7 +84,7 @@ export default function Testimonials() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-[180px_1.9fr_1fr] lg:gap-10">
+        <Reveal delay={0.1} className="mt-16 grid grid-cols-1 gap-10 lg:grid-cols-[180px_1.9fr_1fr] lg:gap-5">
           {/* tab list */}
           <div className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-1 lg:overflow-visible">
             {CASE_STUDIES.map((c, i) => {

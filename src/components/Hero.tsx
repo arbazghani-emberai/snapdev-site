@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight } from "@/components/icons";
 import TopoLines from "./TopoLines";
 import HeroGradient from "./HeroGradient";
 import Reveal from "./Reveal";
@@ -28,9 +29,10 @@ export default function Hero() {
           <button
             type="button"
             onClick={() => setBookOpen(true)}
-            className="bg-brand hover:bg-brand-ink mt-7 rounded-full px-7 py-3.5 text-[15px] font-semibold text-white transition"
+            className="bg-brand hover:bg-brand-ink mt-7 flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-semibold text-white transition"
           >
             Connect with an expert now
+            <ArrowRight className="size-4" strokeWidth={2} />
           </button>
         </Reveal>
 
