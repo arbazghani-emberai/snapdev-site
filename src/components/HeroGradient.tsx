@@ -27,8 +27,8 @@ export default function HeroGradient() {
       <span
         className="hero-blob hero-blob-b"
         style={{
-          background: "var(--color-tint-periwinkle)",
-          opacity: 0.35,
+          background: "#ffffff",
+          opacity: 0.55,
           width: "54%",
           height: "56%",
           bottom: "-14%",
