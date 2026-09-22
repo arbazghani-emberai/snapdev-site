@@ -355,6 +355,15 @@ body {
   animation: session-in 0.18s ease-out both;
 }
 
+@keyframes testimonial-fill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-modal-in,
   .animate-menu-in,
@@ -367,5 +376,10 @@ body {
   .hero-blob-a,
   .hero-blob-b {
     animation: none;
+  }
+
+  [class*="animate-[testimonial-fill"] {
+    animation: none;
+    transform: scaleY(1);
   }
 }
