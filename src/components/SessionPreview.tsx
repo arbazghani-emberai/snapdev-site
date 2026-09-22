@@ -128,7 +128,7 @@ export default function SessionPreview() {
           onClick={() => setBookOpen(true)}
           className="bg-brand hover:bg-brand-ink flex shrink-0 items-center justify-center rounded-full px-5 text-[14px] font-medium whitespace-nowrap text-white transition"
         >
-          Claim my free hour
+          Connect with an expert now
         </button>
       </div>
 
