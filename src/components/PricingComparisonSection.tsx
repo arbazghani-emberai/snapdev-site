@@ -76,7 +76,7 @@ export default function PricingComparisonSection() {
   return (
     <section
       aria-labelledby="pricing-comparison-heading"
-      className="bg-surface-2 relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 rounded-xl p-5 sm:w-[calc(100vw-1.5rem)] sm:p-10 lg:w-[calc(100vw-2.5rem)] lg:p-14"
+      className="bg-surface-2 relative left-1/2 mt-24 w-[calc(100vw-1rem)] -translate-x-1/2 rounded-xl p-5 sm:w-[calc(100vw-1.5rem)] sm:p-10 lg:w-[calc(100vw-2.5rem)] lg:p-14"
     >
       <div>
         <Reveal>

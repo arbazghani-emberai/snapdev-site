@@ -78,7 +78,7 @@ export default function Testimonials() {
     <section
       id="results"
       aria-labelledby="testimonials-heading"
-      className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-24"
+      className="relative left-1/2 mt-24 w-screen -translate-x-1/2 py-24"
     >
       <div className="px-5 sm:px-10 lg:px-14">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">

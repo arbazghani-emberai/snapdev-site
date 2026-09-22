@@ -63,7 +63,7 @@ export default function GuaranteeSection() {
   return (
     <section
       aria-labelledby="guarantee-heading"
-      className="bg-brand-ink relative left-1/2 mt-5 w-[calc(100vw-1rem)] -translate-x-1/2 overflow-hidden rounded-xl sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
+      className="bg-brand-ink relative left-1/2 mt-24 w-[calc(100vw-1rem)] -translate-x-1/2 overflow-hidden rounded-xl sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
     >
       <div className="relative mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 py-20 text-center sm:px-10">
         <Reveal>

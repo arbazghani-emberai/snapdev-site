@@ -35,7 +35,7 @@ export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section aria-labelledby="faq-heading" className="relative left-1/2 mt-5 w-screen -translate-x-1/2 py-24">
+    <section aria-labelledby="faq-heading" className="relative left-1/2 mt-24 w-screen -translate-x-1/2 py-24">
       <div className="mx-auto max-w-3xl px-6 sm:px-10 lg:px-0">
         <Reveal>
           <h2
