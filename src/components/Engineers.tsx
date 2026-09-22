@@ -17,7 +17,7 @@ function initials(name: string) {
 }
 
 function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => void }) {
-  const { name, role, status, skills, img, hue } = engineer;
+  const { name, role, status, skills, img, hue, specialty, capability } = engineer;
   const firstName = name.split(/\s+/)[0];
   const online = status === "Online";
 
@@ -71,20 +71,15 @@ function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => 
             </span>
           </div>
 
+          <p className="text-ink-2 mt-2 text-[13px] leading-snug">{specialty}</p>
+
           <div className="mt-2.5 flex flex-nowrap items-center gap-1.5 overflow-hidden">
-            {skills.slice(0, 2).map((s) => (
-              <span
-                key={s}
-                className="border-line bg-surface text-ink-2 shrink-0 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap"
-              >
-                {s}
-              </span>
-            ))}
-            {skills.length > 2 && (
-              <span className="text-ink-3 shrink-0 rounded-full px-2 py-1 text-[12px] font-medium whitespace-nowrap">
-                +{skills.length - 2}
-              </span>
-            )}
+            <span className="border-line bg-surface text-ink-2 shrink-0 rounded-full border px-3 py-1 text-[12px] font-medium whitespace-nowrap">
+              {skills[0]}
+            </span>
+            <span className="border-line bg-surface text-ink-2 shrink-0 truncate rounded-full border px-3 py-1 text-[12px] font-medium">
+              {capability}
+            </span>
           </div>
         </div>
 
