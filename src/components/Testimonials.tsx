@@ -126,7 +126,7 @@ export default function Testimonials() {
           </div>
 
           {/* case study */}
-          <div>
+          <div className="bg-surface-2 rounded-2xl p-7">
             <div className="font-heading text-[24px] leading-tight font-semibold tracking-tight">
               {current.name}
             </div>
