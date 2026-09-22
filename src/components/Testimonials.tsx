@@ -119,7 +119,7 @@ export default function Testimonials() {
               key={current.videoId}
               src={`https://embed-v2.testimonial.to/v/${current.videoId}`}
               title={`${current.name} testimonial`}
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture"
               loading="lazy"
               className="absolute inset-0 h-full w-full border-0"
             />
