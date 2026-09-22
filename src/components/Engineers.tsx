@@ -128,11 +128,10 @@ export default function Engineers() {
             id="top-engineers-heading"
             className="font-heading text-[34px] leading-[1.1] font-semibold tracking-tight md:text-[44px] md:whitespace-nowrap"
           >
-            Who you&apos;ll actually be talking to
+            Who you&apos;ll be talking to
           </h2>
           <p className="text-ink-2 mt-4 w-full max-w-[62ch] text-[14.5px] font-medium">
-            Every engineer is interviewed and rated by the founders they work with. You can be on a call before you
-            finish your coffee.
+            Every engineer is interviewed, tested and rated by the founders they work with.
           </p>
         </Reveal>
 
