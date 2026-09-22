@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck } from "lucide-react";
 import Reveal from "./Reveal";
 import BookFreeSessionModal from "./BookFreeSessionModal";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
@@ -17,7 +17,8 @@ function initials(name: string) {
 }
 
 function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => void }) {
-  const { name, role, status, skills, img, hue, specialty, capability } = engineer;
+  const { name, role, status, skills, img, hue, specialty, capability, cardRating, cardReviewCount, cardSessionCount } = engineer;
+  const hasReviews = cardRating !== undefined && cardReviewCount !== undefined;
   const firstName = name.split(/\s+/)[0];
   const online = status === "Online";
 
@@ -49,8 +50,24 @@ function EngineerCard({ engineer, onBook }: { engineer: Engineer; onBook: () => 
               {initials(name)}
             </span>
           )}
-          <span className="bg-surface/95 text-ink-3 absolute bottom-2.5 left-2.5 rounded-full px-2.5 py-1 text-[12px] font-semibold shadow-sm">
-            No reviews yet
+          <span className="bg-surface/95 text-ink-3 absolute bottom-2.5 left-2.5 flex max-w-[calc(100%-20px)] items-center gap-1 rounded-full px-2.5 py-1 text-[11.5px] font-semibold whitespace-nowrap shadow-sm">
+            {hasReviews ? (
+              <>
+                <span className="text-star">★</span>
+                <span className="text-ink">{cardRating!.toFixed(1)}</span>
+                <span className="text-ink-2 truncate font-normal">
+                  ({cardReviewCount}) · {cardSessionCount} sessions
+                </span>
+              </>
+            ) : (
+              "No reviews yet"
+            )}
+          </span>
+          <span
+            className="bg-surface/95 absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full shadow-sm"
+            title="Verified"
+          >
+            <BadgeCheck className="text-brand size-[18px]" fill="currentColor" stroke="white" strokeWidth={2} />
           </span>
         </div>
 
@@ -115,7 +132,7 @@ export default function Engineers() {
     <section
       id="engineers"
       aria-labelledby="top-engineers-heading"
-      className="relative left-1/2 mt-16 w-screen -translate-x-1/2 py-14"
+      className="relative left-1/2 mt-24 w-screen -translate-x-1/2 py-14"
     >
       <div className="flex flex-wrap items-end justify-between gap-6 px-5 sm:px-10 lg:px-14">
         <Reveal>
