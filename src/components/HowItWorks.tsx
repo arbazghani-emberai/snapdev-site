@@ -40,7 +40,7 @@ export default function HowItWorks() {
       aria-labelledby="how-heading"
       className="relative left-1/2 mt-24 w-[calc(100vw-1rem)] -translate-x-1/2 overflow-hidden rounded-xl py-24 sm:w-[calc(100vw-1.5rem)] lg:w-[calc(100vw-2.5rem)]"
     >
-      <div className="mx-auto max-w-[1500px] px-6 sm:px-10 md:px-14">
+      <div className="mx-auto max-w-none px-3 sm:px-7 lg:px-9">
         <Reveal className="mx-auto max-w-2xl text-center">
           <h2
             id="how-heading"
@@ -50,7 +50,7 @@ export default function HowItWorks() {
           </h2>
         </Reveal>
 
-        <div className="mx-auto mt-14 grid max-w-xl grid-cols-1 gap-10 lg:max-w-5xl lg:grid-cols-3 lg:gap-8">
+        <div className="mx-auto mt-14 grid max-w-xl grid-cols-1 gap-10 lg:max-w-none lg:grid-cols-3 lg:gap-10">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.12}>
               <StepVisual clip={step.clip} title={step.title} />
