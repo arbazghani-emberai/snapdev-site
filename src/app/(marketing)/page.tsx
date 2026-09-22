@@ -5,6 +5,7 @@ import WhyItHappensSection from "@/components/WhyItHappensSection";
 import LaunchOfferSection from "@/components/LaunchOfferSection";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
+import GuaranteeSection from "@/components/GuaranteeSection";
 import PricingComparisonSection from "@/components/PricingComparisonSection";
 import FAQSection from "@/components/FAQSection";
 import FinalCta from "@/components/FinalCta";
@@ -19,6 +20,7 @@ export default function Home() {
       <WhyItHappensSection />
       <LaunchOfferSection />
       <Testimonials />
+      <GuaranteeSection />
       <PricingComparisonSection />
       <FinalCta />
       <FAQSection />
