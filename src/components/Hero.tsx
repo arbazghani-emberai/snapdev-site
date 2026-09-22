@@ -1,4 +1,3 @@
-import SessionPreview from "./SessionPreview";
 import TopoLines from "./TopoLines";
 import HeroGradient from "./HeroGradient";
 import Reveal from "./Reveal";
@@ -22,7 +21,15 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={0.15} className="mx-auto w-full max-w-4xl">
-          <SessionPreview />
+          <video
+            className="border-line-2 aspect-video w-full rounded-xl border shadow-[0_30px_80px_-20px_rgba(19,19,19,0.25)]"
+            src="/hero/snapdev-hero.mp4"
+            poster="/hero/snapdev-hero-poster.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
         </Reveal>
       </div>
     </section>
