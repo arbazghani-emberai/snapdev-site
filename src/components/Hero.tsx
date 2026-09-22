@@ -29,7 +29,7 @@ export default function Hero() {
           <button
             type="button"
             onClick={() => setBookOpen(true)}
-            className="bg-brand hover:bg-brand-ink mt-7 flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-semibold text-white transition"
+            className="bg-brand hover:bg-brand-ink mx-auto mt-7 flex items-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-semibold text-white transition"
           >
             Connect with an expert now
             <ArrowRight className="size-4" strokeWidth={2} />
