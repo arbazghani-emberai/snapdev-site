@@ -221,7 +221,7 @@ export default function AppHome() {
     <div className="pb-28">
       <div className="relative left-1/2 w-screen -translate-x-1/2 lg:flex lg:items-start">
         {/* left menu */}
-        <Reveal className="border-line-2 px-3.5 py-8 lg:sticky lg:top-20 lg:w-[280px] lg:shrink-0 lg:border-r lg:py-10 xl:w-[320px]">
+        <Reveal className="border-line-2 px-3.5 py-8 lg:sticky lg:top-16 lg:w-[280px] lg:shrink-0 lg:border-r lg:py-10 xl:w-[320px]">
           <h2 className="text-ink-3 px-1 text-[11px] font-bold tracking-[0.06em] uppercase">
             Projects
           </h2>
