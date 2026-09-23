@@ -25,7 +25,7 @@ export default function SelectPlanModal({
   };
 
   return (
-    <Modal open={open} onClose={onClose} className="max-w-4xl">
+    <Modal open={open} onClose={onClose} className="max-w-6xl">
       <h2 className="font-heading text-[22px] font-semibold tracking-tight">
         Choose your plan
       </h2>
