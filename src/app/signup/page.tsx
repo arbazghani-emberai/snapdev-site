@@ -17,11 +17,14 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <AuthLayout heading="Create account" subheading="Start your first session free, up to 30 min.">
+    <AuthLayout
+      heading="Create account"
+      subheading="Start your first session free, up to 30 min."
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          router.push(claimGuestSession() ? "/app/inbox" : "/app");
+          router.push(claimGuestSession() ? "/app/inbox" : "/onboarding");
         }}
         className="flex flex-col gap-4"
       >
@@ -67,7 +70,11 @@ export default function SignupPage() {
               aria-pressed={showPassword}
               className="text-ink-3 hover:text-ink-2 absolute top-1/2 right-3 -translate-y-1/2 transition"
             >
-              {showPassword ? <EyeOff className="size-[18px]" strokeWidth={1.75} /> : <Eye className="size-[18px]" strokeWidth={1.75} />}
+              {showPassword ? (
+                <EyeOff className="size-[18px]" strokeWidth={1.75} />
+              ) : (
+                <Eye className="size-[18px]" strokeWidth={1.75} />
+              )}
             </button>
           </div>
         </label>
@@ -81,7 +88,9 @@ export default function SignupPage() {
 
         <div className="my-1 flex items-center gap-3">
           <span className="bg-line h-px flex-1" />
-          <span className="text-ink-3 text-[11px] font-semibold tracking-[0.08em]">OR</span>
+          <span className="text-ink-3 text-[11px] font-semibold tracking-[0.08em]">
+            OR
+          </span>
           <span className="bg-line h-px flex-1" />
         </div>
 

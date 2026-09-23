@@ -18,6 +18,12 @@ import ScheduleModal from "@/components/ScheduleModal";
 import { useProjects } from "@/components/ProjectsProvider";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
 import type { Project } from "@/data/app";
+import {
+  BUILDER_TOOLS,
+  STUCK_POINTS,
+  readOnboardingAnswers,
+  type OnboardingAnswers,
+} from "@/data/onboarding";
 
 /** Matches the source icons offered in the connect-a-project drawer. */
 const SOURCE_ICON: Record<Project["source"], IconComponent> = {
@@ -40,6 +46,13 @@ function matchScore(engineer: Engineer, project: Project | undefined) {
   if (!project || project.stack.length === 0) return 0;
   const stack = project.stack.map((s) => s.toLowerCase());
   return engineer.skills.filter((s) => stack.includes(s.toLowerCase())).length;
+}
+
+/** 1 when the engineer's capability matches what the signup onboarding said
+ *  the visitor was stuck on, so they float to the top before a project (with
+ *  its own, more specific stack match) has been connected. */
+function stuckPointScore(engineer: Engineer, capability: string | undefined) {
+  return capability && engineer.capability === capability ? 1 : 0;
 }
 
 function EngineerCard({
@@ -184,6 +197,18 @@ export default function AppHome() {
   );
   const [bookEngineer, setBookEngineer] = useState<Engineer | null>(null);
 
+  // What the signup onboarding wizard captured, if this visitor went through
+  // it - read once on mount (sessionStorage isn't available during SSR, so
+  // the lazy initializer just falls back to null there, same trick the guest
+  // session helpers use).
+  const [onboarding] = useState<OnboardingAnswers | null>(() =>
+    readOnboardingAnswers(),
+  );
+  const stuckPoint = STUCK_POINTS.find(
+    (p) => p.id === onboarding?.stuckPointId,
+  );
+  const tool = BUILDER_TOOLS.find((t) => t.id === onboarding?.toolId);
+
   // The newest project (ProjectsProvider prepends on add) is always
   // projects[0] - that also covers the "exactly one project" case, since
   // there's nothing else it could be. Projects are never removed, so the
@@ -203,12 +228,18 @@ export default function AppHome() {
       const scoreDiff =
         matchScore(b, selectedProject) - matchScore(a, selectedProject);
       if (scoreDiff !== 0) return scoreDiff;
+      // Once a project's connected, its stack is a stronger signal than the
+      // onboarding answer from signup - only break ties with it here.
+      const stuckDiff =
+        stuckPointScore(b, stuckPoint?.capability) -
+        stuckPointScore(a, stuckPoint?.capability);
+      if (stuckDiff !== 0) return stuckDiff;
       const onlineDiff =
         Number(b.status === "Online") - Number(a.status === "Online");
       if (onlineDiff !== 0) return onlineDiff;
       return (b.cardRating ?? 0) - (a.cardRating ?? 0);
     });
-  }, [selectedProject]);
+  }, [selectedProject, stuckPoint]);
 
   const topOnline = suitableEngineers.find((e) => e.status === "Online");
 
@@ -284,12 +315,16 @@ export default function AppHome() {
             <h1 className="font-heading text-[22px] font-semibold tracking-tight">
               {selectedProject
                 ? `Engineers for ${selectedProject.name}`
-                : "Engineers"}
+                : stuckPoint
+                  ? "Suggested for you"
+                  : "Engineers"}
             </h1>
             <p className="text-ink-2 mt-1 text-[13.5px]">
               {selectedProject
                 ? "Sorted by how closely their skills match your stack."
-                : "Connect a project for a matched list - showing everyone for now."}
+                : stuckPoint
+                  ? `Prioritized for "${stuckPoint.label.toLowerCase()}"${tool ? ` after building with ${tool.label}` : ""}.`
+                  : "Connect a project for a matched list - showing everyone for now."}
             </p>
           </Reveal>
 
