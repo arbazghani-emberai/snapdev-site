@@ -218,10 +218,10 @@ export default function AppHome() {
   };
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2 pb-28">
-      <div className="lg:flex lg:items-start">
+    <div className="pb-28">
+      <div className="relative left-1/2 w-screen -translate-x-1/2 lg:flex lg:items-start">
         {/* left menu */}
-        <Reveal className="border-line-2 px-5 py-8 sm:px-10 lg:sticky lg:top-20 lg:w-[280px] lg:shrink-0 lg:border-r lg:px-6 lg:py-10 xl:w-[320px] xl:px-8">
+        <Reveal className="border-line-2 px-3.5 py-8 lg:sticky lg:top-20 lg:w-[280px] lg:shrink-0 lg:border-r lg:py-10 xl:w-[320px]">
           <h2 className="text-ink-3 px-1 text-[11px] font-bold tracking-[0.06em] uppercase">
             Projects
           </h2>
@@ -279,7 +279,7 @@ export default function AppHome() {
         </Reveal>
 
         {/* right: engineers for the selected project */}
-        <div className="min-w-0 flex-1 px-5 py-8 sm:px-10 lg:px-8 lg:py-10 xl:px-12">
+        <div className="min-w-0 flex-1 px-3.5 py-8 lg:py-10">
           <Reveal>
             <h1 className="font-heading text-[22px] font-semibold tracking-tight">
               {selectedProject
