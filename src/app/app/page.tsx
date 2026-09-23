@@ -3,7 +3,14 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
-import { Plus, ArrowRight, Link2, Globe, Package, type IconComponent } from "@/components/icons";
+import {
+  Plus,
+  ArrowRight,
+  Link2,
+  Globe,
+  Package,
+  type IconComponent,
+} from "@/components/icons";
 import Reveal from "@/components/Reveal";
 import GetUnstuckModal from "@/components/GetUnstuckModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
@@ -44,8 +51,19 @@ function EngineerCard({
   onGetUnstuck: () => void;
   onBookCall: () => void;
 }) {
-  const { name, role, status, skills, img, hue, specialty, capability, cardRating, cardReviewCount, cardSessionCount } =
-    engineer;
+  const {
+    name,
+    role,
+    status,
+    skills,
+    img,
+    hue,
+    specialty,
+    capability,
+    cardRating,
+    cardReviewCount,
+    cardSessionCount,
+  } = engineer;
   const hasReviews = cardRating !== undefined && cardReviewCount !== undefined;
   const online = status === "Online";
 
@@ -88,23 +106,37 @@ function EngineerCard({
           className="bg-surface/95 absolute top-2.5 right-2.5 grid size-7 place-items-center rounded-full shadow-sm"
           title="Verified"
         >
-          <BadgeCheck className="text-brand size-[18px]" fill="currentColor" stroke="white" strokeWidth={2} />
+          <BadgeCheck
+            className="text-brand size-[18px]"
+            fill="currentColor"
+            stroke="white"
+            strokeWidth={2}
+          />
         </span>
       </div>
 
       <div className="p-4">
-        <div className="font-heading text-[20px] leading-tight font-semibold tracking-tight">{name}</div>
+        <div className="font-heading text-[20px] leading-tight font-semibold tracking-tight">
+          {name}
+        </div>
 
         <div className="mt-0.5 flex items-center gap-2.5 text-[12.5px]">
           <span className="text-ink-2 truncate font-medium">{role}</span>
           <span aria-hidden="true" className="bg-line h-3.5 w-px shrink-0" />
           <span className="text-ink-2 flex shrink-0 items-center gap-1.5 font-medium">
-            <span aria-hidden="true" className={`size-1.5 rounded-full ${online ? "bg-online" : "bg-ink-3"}`} />
+            <span
+              aria-hidden="true"
+              className={`size-1.5 rounded-full ${online ? "bg-online" : "bg-ink-3"}`}
+            />
             {status}
           </span>
         </div>
 
-        {specialty && <p className="text-ink-2 mt-2 text-[13px] leading-snug">{specialty}</p>}
+        {specialty && (
+          <p className="text-ink-2 mt-2 text-[13px] leading-snug">
+            {specialty}
+          </p>
+        )}
 
         <div className="mt-2.5 flex flex-nowrap items-center gap-1.5 overflow-hidden">
           {skills[0] && (
@@ -142,10 +174,14 @@ function EngineerCard({
 
 export default function AppHome() {
   const { projects, addProject } = useProjects();
-  const [selectedId, setSelectedId] = useState<string | undefined>(projects[0]?.id);
+  const [selectedId, setSelectedId] = useState<string | undefined>(
+    projects[0]?.id,
+  );
   const [connectOpen, setConnectOpen] = useState(false);
   const [unstuckOpen, setUnstuckOpen] = useState(false);
-  const [unstuckEngineer, setUnstuckEngineer] = useState<Engineer | undefined>(undefined);
+  const [unstuckEngineer, setUnstuckEngineer] = useState<Engineer | undefined>(
+    undefined,
+  );
   const [bookEngineer, setBookEngineer] = useState<Engineer | null>(null);
 
   // The newest project (ProjectsProvider prepends on add) is always
@@ -164,9 +200,11 @@ export default function AppHome() {
 
   const suitableEngineers = useMemo(() => {
     return [...ENGINEERS].sort((a, b) => {
-      const scoreDiff = matchScore(b, selectedProject) - matchScore(a, selectedProject);
+      const scoreDiff =
+        matchScore(b, selectedProject) - matchScore(a, selectedProject);
       if (scoreDiff !== 0) return scoreDiff;
-      const onlineDiff = Number(b.status === "Online") - Number(a.status === "Online");
+      const onlineDiff =
+        Number(b.status === "Online") - Number(a.status === "Online");
       if (onlineDiff !== 0) return onlineDiff;
       return (b.cardRating ?? 0) - (a.cardRating ?? 0);
     });
@@ -180,83 +218,95 @@ export default function AppHome() {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6 py-8 pb-28 lg:grid-cols-[260px_1fr]">
-      {/* left menu */}
-      <Reveal className="lg:sticky lg:top-20 lg:self-start">
-        <h2 className="text-ink-3 px-1 text-[11px] font-bold tracking-[0.06em] uppercase">Projects</h2>
+    <div className="relative left-1/2 w-screen -translate-x-1/2 pb-28">
+      <div className="grid grid-cols-1 gap-6 py-8 px-5 sm:px-10 lg:grid-cols-[260px_auto_1fr] lg:gap-0 lg:px-0">
+        {/* left menu */}
+        <Reveal className="lg:sticky lg:top-20 lg:h-fit lg:self-start lg:pl-6 xl:pl-10">
+          <h2 className="text-ink-3 px-1 text-[11px] font-bold tracking-[0.06em] uppercase">
+            Projects
+          </h2>
 
-        <div className="mt-3 flex flex-col gap-1">
-          {projects.map((p) => {
-            const SourceIcon = SOURCE_ICON[p.source];
-            const active = p.id === selectedId;
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => setSelectedId(p.id)}
-                className={`flex items-center gap-2.5 rounded-lg p-2.5 text-left transition ${
-                  active ? "bg-surface-2" : "hover:bg-surface-2"
-                }`}
-              >
-                <span className="bg-surface text-ink-2 border-line grid size-8 shrink-0 place-items-center rounded-md border">
-                  <SourceIcon className="size-3.5" strokeWidth={2} />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className={`block truncate text-[13.5px] ${active ? "text-ink font-semibold" : "text-ink-2 font-medium"}`}>
-                    {p.name}
+          <div className="mt-3 flex flex-col gap-1">
+            {projects.map((p) => {
+              const SourceIcon = SOURCE_ICON[p.source];
+              const active = p.id === selectedId;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setSelectedId(p.id)}
+                  className={`flex items-center gap-2.5 rounded-lg p-2.5 text-left transition ${
+                    active ? "bg-surface-2" : "hover:bg-surface-2"
+                  }`}
+                >
+                  <span className="bg-surface text-ink-2 border-line grid size-8 shrink-0 place-items-center rounded-md border">
+                    <SourceIcon className="size-3.5" strokeWidth={2} />
                   </span>
-                  <span className="text-ink-3 flex items-center gap-1 text-[11.5px]">
+                  <span className="min-w-0 flex-1">
                     <span
-                      aria-hidden="true"
-                      className={`size-1.5 rounded-full ${p.status === "Paused" ? "bg-ink-3" : "bg-online"}`}
-                    />
-                    {p.status}
+                      className={`block truncate text-[13.5px] ${active ? "text-ink font-semibold" : "text-ink-2 font-medium"}`}
+                    >
+                      {p.name}
+                    </span>
+                    <span className="text-ink-3 flex items-center gap-1 text-[11.5px]">
+                      <span
+                        aria-hidden="true"
+                        className={`size-1.5 rounded-full ${p.status === "Paused" ? "bg-ink-3" : "bg-online"}`}
+                      />
+                      {p.status}
+                    </span>
                   </span>
-                </span>
-              </button>
-            );
-          })}
+                </button>
+              );
+            })}
 
-          {projects.length === 0 && (
-            <p className="text-ink-3 px-1 text-[13px] leading-relaxed">
-              No projects yet. Connect one so we can match engineers against your actual stack.
-            </p>
-          )}
-        </div>
+            {projects.length === 0 && (
+              <p className="text-ink-3 px-1 text-[13px] leading-relaxed">
+                No projects yet. Connect one so we can match engineers against
+                your actual stack.
+              </p>
+            )}
+          </div>
 
-        <button
-          type="button"
-          onClick={() => setConnectOpen(true)}
-          className="border-line hover:bg-surface-2 mt-4 flex w-full items-center justify-center gap-1.5 rounded-full border py-2.5 text-[13px] font-semibold transition"
-        >
-          <Plus className="size-3.5" strokeWidth={2.5} />
-          Add new project
-        </button>
-      </Reveal>
-
-      {/* right: engineers for the selected project */}
-      <div>
-        <Reveal>
-          <h1 className="font-heading text-[22px] font-semibold tracking-tight">
-            {selectedProject ? `Engineers for ${selectedProject.name}` : "Engineers"}
-          </h1>
-          <p className="text-ink-2 mt-1 text-[13.5px]">
-            {selectedProject
-              ? "Sorted by how closely their skills match your stack."
-              : "Connect a project for a matched list - showing everyone for now."}
-          </p>
+          <button
+            type="button"
+            onClick={() => setConnectOpen(true)}
+            className="border-line hover:bg-surface-2 mt-4 flex w-full items-center justify-center gap-1.5 rounded-full border py-2.5 text-[13px] font-semibold transition"
+          >
+            <Plus className="size-3.5" strokeWidth={2.5} />
+            Add new project
+          </button>
         </Reveal>
 
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {suitableEngineers.map((e, i) => (
-            <Reveal key={`${e.name}-${i}`} delay={Math.min(i * 0.04, 0.3)}>
-              <EngineerCard
-                engineer={e}
-                onGetUnstuck={() => openGetUnstuck(e)}
-                onBookCall={() => setBookEngineer(e)}
-              />
-            </Reveal>
-          ))}
+        {/* divider between the projects menu and the engineer list */}
+        <div aria-hidden="true" className="bg-line hidden lg:block lg:w-px" />
+
+        {/* right: engineers for the selected project */}
+        <div className="lg:pl-8 xl:pl-10">
+          <Reveal>
+            <h1 className="font-heading text-[22px] font-semibold tracking-tight">
+              {selectedProject
+                ? `Engineers for ${selectedProject.name}`
+                : "Engineers"}
+            </h1>
+            <p className="text-ink-2 mt-1 text-[13.5px]">
+              {selectedProject
+                ? "Sorted by how closely their skills match your stack."
+                : "Connect a project for a matched list - showing everyone for now."}
+            </p>
+          </Reveal>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {suitableEngineers.map((e, i) => (
+              <Reveal key={`${e.name}-${i}`} delay={Math.min(i * 0.04, 0.3)}>
+                <EngineerCard
+                  engineer={e}
+                  onGetUnstuck={() => openGetUnstuck(e)}
+                  onBookCall={() => setBookEngineer(e)}
+                />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -264,7 +314,10 @@ export default function AppHome() {
       {topOnline && (
         <div className="fixed inset-x-0 bottom-0 z-30 flex justify-center px-4 pb-4">
           <div className="bg-ink border-line-2 flex w-full max-w-xl items-center gap-3 rounded-full border py-2.5 pr-2.5 pl-4 shadow-2xl">
-            <span aria-hidden="true" className="bg-online block size-2 shrink-0 rounded-full" />
+            <span
+              aria-hidden="true"
+              className="bg-online block size-2 shrink-0 rounded-full"
+            />
             <span className="text-bg min-w-0 flex-1 truncate text-[13.5px] font-medium">
               {topOnline.name} is online right now
             </span>
@@ -293,8 +346,15 @@ export default function AppHome() {
         initialProjectId={selectedId}
         initialEngineer={unstuckEngineer}
       />
-      <ScheduleModal engineer={bookEngineer} fixedLength={20} onClose={() => setBookEngineer(null)} />
-      <ConnectProjectDrawer open={connectOpen} onClose={() => setConnectOpen(false)} />
+      <ScheduleModal
+        engineer={bookEngineer}
+        fixedLength={20}
+        onClose={() => setBookEngineer(null)}
+      />
+      <ConnectProjectDrawer
+        open={connectOpen}
+        onClose={() => setConnectOpen(false)}
+      />
     </div>
   );
 }
