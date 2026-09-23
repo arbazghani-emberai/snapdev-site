@@ -64,16 +64,16 @@ export default function AppHeader() {
     };
   }, [open]);
 
-  // The Messages screen's own top border isn't reliably visible flush
-  // against the sticky header (they occupy adjacent, not overlapping,
-  // boxes), so the header paints its own bottom border on that route only.
-  const onMessages = pathname.startsWith("/app/inbox");
+  // A screen's own top border isn't reliably visible flush against the
+  // sticky header (they occupy adjacent, not overlapping, boxes), so the
+  // header paints its own bottom border on those routes instead.
+  const wantsHeaderDivider = pathname === "/app" || pathname.startsWith("/app/inbox");
 
   return (
     <>
       <header
         className={`bg-bg/85 sticky top-0 z-40 flex items-center justify-between gap-4 px-3.5 py-3.5 backdrop-blur-md ${
-          onMessages ? "border-line-2 border-b" : ""
+          wantsHeaderDivider ? "border-line-2 border-b" : ""
         }`}
       >
         <Link href="/app" className="ml-1 shrink-0">
