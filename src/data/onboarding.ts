@@ -1,5 +1,14 @@
 import type { IconComponent } from "@/components/icons";
 import { Bug, Rocket, Monitor, Sparkles, Compass } from "@/components/icons";
+import {
+  ReplitLogo,
+  LovableLogo,
+  BoltLogo,
+  V0Logo,
+  CursorLogo,
+  ClaudeLogo,
+  WindsurfLogo,
+} from "@/components/BuilderLogos";
 
 /** What the signup wizard asked, kept around so the home screen can bias its
  *  suggested engineers without a backend to persist it in. */
@@ -8,17 +17,19 @@ export const ONBOARDING_STORAGE_KEY = "snapdev_onboarding";
 export type BuilderTool = {
   id: string;
   label: string;
+  /** Left out for the catch-all "Something else" option. */
+  logo?: IconComponent;
 };
 
 export const BUILDER_TOOLS: BuilderTool[] = [
-  { id: "replit", label: "Replit" },
-  { id: "lovable", label: "Lovable" },
-  { id: "bolt", label: "Bolt" },
-  { id: "v0", label: "v0" },
-  { id: "cursor", label: "Cursor" },
-  { id: "claude", label: "Claude" },
-  { id: "windsurf", label: "Windsurf" },
-  { id: "other", label: "Something else" },
+  { id: "replit", label: "Replit", logo: ReplitLogo },
+  { id: "lovable", label: "Lovable", logo: LovableLogo },
+  { id: "bolt", label: "Bolt", logo: BoltLogo },
+  { id: "v0", label: "v0", logo: V0Logo },
+  { id: "cursor", label: "Cursor", logo: CursorLogo },
+  { id: "claude", label: "Claude", logo: ClaudeLogo },
+  { id: "windsurf", label: "Windsurf", logo: WindsurfLogo },
+  { id: "other", label: "Something else", logo: Compass },
 ];
 
 export type StuckPoint = {

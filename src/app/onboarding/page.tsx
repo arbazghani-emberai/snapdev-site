@@ -71,19 +71,22 @@ export default function OnboardingPage() {
                 message.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
                 {BUILDER_TOOLS.map((tool) => (
                   <button
                     key={tool.id}
                     type="button"
                     onClick={() => pickTool(tool.id)}
-                    className={`rounded-full border px-4 py-2.5 text-[14px] font-semibold transition ${
+                    className={`flex flex-col items-center justify-center gap-2.5 rounded-xl border px-3 py-5 text-center transition ${
                       toolId === tool.id
-                        ? "border-brand bg-brand-wash text-ink"
-                        : "border-line hover:border-ink-3 text-ink-2 hover:text-ink"
+                        ? "border-brand bg-brand-wash"
+                        : "border-line hover:border-ink-3 hover:bg-surface-2"
                     }`}
                   >
-                    {tool.label}
+                    {tool.logo && <tool.logo className="text-ink size-6" />}
+                    <span className="text-[13.5px] font-semibold">
+                      {tool.label}
+                    </span>
                   </button>
                 ))}
               </div>
