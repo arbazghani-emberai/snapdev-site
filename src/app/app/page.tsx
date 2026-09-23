@@ -133,7 +133,7 @@ function EngineerCard({
         </div>
 
         {specialty && (
-          <p className="text-ink-2 mt-2 text-[13px] leading-snug">
+          <p className="text-ink-2 mt-1 text-[13px] leading-snug">
             {specialty}
           </p>
         )}
