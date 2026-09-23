@@ -11,7 +11,6 @@ import {
   Package,
   type IconComponent,
 } from "@/components/icons";
-import Reveal from "@/components/Reveal";
 import GetUnstuckModal from "@/components/GetUnstuckModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
 import ScheduleModal from "@/components/ScheduleModal";
@@ -259,7 +258,7 @@ export default function AppHome() {
     <div className="pb-28">
       <div className="relative left-1/2 w-screen -translate-x-1/2 lg:flex lg:items-start">
         {/* left menu */}
-        <Reveal className="border-line-2 px-3.5 py-3.5 lg:sticky lg:top-16 lg:w-[280px] lg:shrink-0 lg:border-r xl:w-[320px]">
+        <div className="border-line-2 px-3.5 py-3.5 lg:sticky lg:top-16 lg:w-[280px] lg:shrink-0 lg:border-r xl:w-[320px]">
           <h2 className="text-ink-3 px-1 text-[11px] font-bold tracking-[0.06em] uppercase">
             Projects
           </h2>
@@ -314,11 +313,11 @@ export default function AppHome() {
             <Plus className="size-3.5" strokeWidth={2.5} />
             Add new project
           </button>
-        </Reveal>
+        </div>
 
         {/* right: engineers for the selected project */}
         <div className="min-w-0 flex-1 px-3.5 py-3.5">
-          <Reveal>
+          <div>
             <h1 className="font-heading text-[22px] font-semibold tracking-tight">
               {selectedProject
                 ? `Engineers for ${selectedProject.name}`
@@ -333,17 +332,16 @@ export default function AppHome() {
                   ? `Prioritized for "${stuckPoint.label.toLowerCase()}"${toolsLabel ? ` after building with ${toolsLabel}` : ""}.`
                   : "Connect a project for a matched list - showing everyone for now."}
             </p>
-          </Reveal>
+          </div>
 
           <div className="mt-5 grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
             {suitableEngineers.map((e, i) => (
-              <Reveal key={`${e.name}-${i}`} delay={Math.min(i * 0.04, 0.3)}>
-                <EngineerCard
-                  engineer={e}
-                  onGetUnstuck={() => openGetUnstuck(e)}
-                  onBookCall={() => setBookEngineer(e)}
-                />
-              </Reveal>
+              <EngineerCard
+                key={`${e.name}-${i}`}
+                engineer={e}
+                onGetUnstuck={() => openGetUnstuck(e)}
+                onBookCall={() => setBookEngineer(e)}
+              />
             ))}
           </div>
         </div>
