@@ -80,7 +80,8 @@ export const STUCK_POINTS: StuckPoint[] = [
 ];
 
 export type OnboardingAnswers = {
-  toolId: string;
+  /** Multi-select - a founder often used more than one tool along the way. */
+  toolIds: string[];
   stuckPointId: string;
   description: string;
 };

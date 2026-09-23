@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Wordmark from "@/components/Wordmark";
-import { ArrowLeft } from "@/components/icons";
+import { ArrowLeft, Check } from "@/components/icons";
 import {
   BUILDER_TOOLS,
   STUCK_POINTS,
@@ -16,13 +16,17 @@ const STEPS = ["Tool", "Stuck point", "Details"];
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [toolId, setToolId] = useState<string | null>(null);
+  const [toolIds, setToolIds] = useState<Set<string>>(new Set());
   const [stuckPointId, setStuckPointId] = useState<string | null>(null);
   const [description, setDescription] = useState("");
 
-  const pickTool = (id: string) => {
-    setToolId(id);
-    setStep(1);
+  const toggleTool = (id: string) => {
+    setToolIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
   const pickStuckPoint = (id: string) => {
@@ -31,9 +35,9 @@ export default function OnboardingPage() {
   };
 
   const finish = () => {
-    if (!toolId || !stuckPointId) return;
+    if (toolIds.size === 0 || !stuckPointId) return;
     saveOnboardingAnswers({
-      toolId,
+      toolIds: Array.from(toolIds),
       stuckPointId,
       description: description.trim(),
     });
@@ -41,21 +45,14 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="flex min-h-svh flex-col items-center px-6 py-12 sm:py-16">
+    <div className="flex min-h-svh flex-col items-center px-6 pt-12 pb-28 sm:pt-16">
       <div className="flex w-full max-w-lg flex-1 flex-col">
         <Link href="/" className="mx-auto mb-8 block shrink-0 sm:mb-10">
           <Wordmark />
         </Link>
 
-        <div className="bg-surface-2 flex w-full shrink-0 overflow-hidden rounded-full">
-          {STEPS.map((s, i) => (
-            <span
-              key={s}
-              className={`h-1 flex-1 border-r-2 border-bg last:border-r-0 transition-colors duration-300 ${
-                i <= step ? "bg-ink" : "bg-transparent"
-              }`}
-            />
-          ))}
+        <div className="text-ink-3 shrink-0 text-left text-[13px] font-semibold tabular-nums">
+          {step + 1}/{STEPS.length}
         </div>
 
         {/* key re-mounts per step so each panel animates in, matching the
@@ -68,27 +65,36 @@ export default function OnboardingPage() {
               </h1>
               <p className="text-ink-2 mt-2 text-[14.5px] leading-relaxed">
                 So we can speak your stack&apos;s language from the first
-                message.
+                message. Pick as many as apply.
               </p>
 
               <div className="mt-6 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                {BUILDER_TOOLS.map((tool) => (
-                  <button
-                    key={tool.id}
-                    type="button"
-                    onClick={() => pickTool(tool.id)}
-                    className={`flex flex-col items-center justify-center gap-2.5 rounded-xl border px-3 py-5 text-center transition ${
-                      toolId === tool.id
-                        ? "border-brand bg-brand-wash"
-                        : "border-line hover:border-ink-3 hover:bg-surface-2"
-                    }`}
-                  >
-                    {tool.logo && <tool.logo className="text-ink size-6" />}
-                    <span className="text-[13.5px] font-semibold">
-                      {tool.label}
-                    </span>
-                  </button>
-                ))}
+                {BUILDER_TOOLS.map((tool) => {
+                  const selected = toolIds.has(tool.id);
+                  return (
+                    <button
+                      key={tool.id}
+                      type="button"
+                      aria-pressed={selected}
+                      onClick={() => toggleTool(tool.id)}
+                      className={`relative flex flex-col items-center justify-center gap-2.5 rounded-md border px-3 py-5 text-center transition ${
+                        selected
+                          ? "border-brand bg-brand-wash"
+                          : "border-line hover:border-ink-3 hover:bg-surface-2"
+                      }`}
+                    >
+                      {selected && (
+                        <span className="bg-brand absolute top-2 right-2 grid size-4 place-items-center rounded-full text-white">
+                          <Check className="size-2.5" strokeWidth={3} />
+                        </span>
+                      )}
+                      {tool.logo && <tool.logo className="text-ink size-6" />}
+                      <span className="text-[13.5px] font-semibold">
+                        {tool.label}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </>
           )}
@@ -155,28 +161,45 @@ export default function OnboardingPage() {
                 placeholder="What are you building, and what have you tried so far?"
                 className="border-line focus:border-brand placeholder:text-ink-3 mt-6 w-full resize-none rounded-lg border p-3.5 text-[14.5px] leading-relaxed outline-none transition"
               />
-
-              <button
-                type="button"
-                onClick={finish}
-                className="bg-ink hover:bg-ink/85 mt-5 w-full rounded-full py-3.5 text-[14.5px] font-semibold text-bg transition"
-              >
-                Show my suggested engineers
-              </button>
             </>
           )}
         </div>
+      </div>
 
-        {step > 0 && (
-          <button
-            type="button"
-            onClick={() => setStep(step - 1)}
-            className="text-ink-2 hover:text-ink mt-6 flex shrink-0 items-center gap-1.5 self-start text-[13.5px] font-medium transition"
-          >
-            <ArrowLeft className="size-3.5" strokeWidth={2} />
-            Back
-          </button>
-        )}
+      {/* Fixed action bar - keeps Back/Continue reachable regardless of how
+          tall a given step's content is, instead of scrolling with it. */}
+      <div className="border-line-2 bg-bg/95 fixed inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-lg items-center gap-3">
+          {step > 0 && (
+            <button
+              type="button"
+              onClick={() => setStep(step - 1)}
+              className="text-ink-2 hover:text-ink hover:bg-surface-2 flex shrink-0 items-center gap-1.5 rounded-full px-4 py-3.5 text-[14px] font-medium transition"
+            >
+              <ArrowLeft className="size-3.5" strokeWidth={2} />
+              Back
+            </button>
+          )}
+          {step === 0 && (
+            <button
+              type="button"
+              disabled={toolIds.size === 0}
+              onClick={() => setStep(1)}
+              className="bg-ink hover:bg-ink/85 disabled:bg-surface-2 disabled:text-ink-3 flex-1 rounded-full py-3.5 text-[14.5px] font-semibold text-bg transition disabled:cursor-not-allowed"
+            >
+              Continue
+            </button>
+          )}
+          {step === 2 && (
+            <button
+              type="button"
+              onClick={finish}
+              className="bg-ink hover:bg-ink/85 flex-1 rounded-full py-3.5 text-[14.5px] font-semibold text-bg transition"
+            >
+              Show my suggested engineers
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

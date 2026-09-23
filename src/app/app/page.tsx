@@ -207,7 +207,14 @@ export default function AppHome() {
   const stuckPoint = STUCK_POINTS.find(
     (p) => p.id === onboarding?.stuckPointId,
   );
-  const tool = BUILDER_TOOLS.find((t) => t.id === onboarding?.toolId);
+  const tools = BUILDER_TOOLS.filter((t) => onboarding?.toolIds.includes(t.id));
+  const toolsLabel =
+    tools.length <= 1
+      ? tools[0]?.label
+      : `${tools
+          .slice(0, -1)
+          .map((t) => t.label)
+          .join(", ")} and ${tools[tools.length - 1].label}`;
 
   // The newest project (ProjectsProvider prepends on add) is always
   // projects[0] - that also covers the "exactly one project" case, since
@@ -323,7 +330,7 @@ export default function AppHome() {
               {selectedProject
                 ? "Sorted by how closely their skills match your stack."
                 : stuckPoint
-                  ? `Prioritized for "${stuckPoint.label.toLowerCase()}"${tool ? ` after building with ${tool.label}` : ""}.`
+                  ? `Prioritized for "${stuckPoint.label.toLowerCase()}"${toolsLabel ? ` after building with ${toolsLabel}` : ""}.`
                   : "Connect a project for a matched list - showing everyone for now."}
             </p>
           </Reveal>
