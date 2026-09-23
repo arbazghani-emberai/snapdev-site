@@ -168,7 +168,7 @@ export default function OnboardingPage() {
 
       {/* Fixed action bar - keeps Back/Continue reachable regardless of how
           tall a given step's content is, instead of scrolling with it. */}
-      <div className="border-line-2 bg-bg/95 fixed inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-md">
+      <div className="bg-bg/95 fixed inset-x-0 bottom-0 px-6 py-4 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-lg items-center gap-3">
           {step > 0 && (
             <button
