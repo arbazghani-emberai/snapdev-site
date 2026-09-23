@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import {
@@ -197,12 +197,16 @@ export default function AppHome() {
   const [bookEngineer, setBookEngineer] = useState<Engineer | null>(null);
 
   // What the signup onboarding wizard captured, if this visitor went through
-  // it - read once on mount (sessionStorage isn't available during SSR, so
-  // the lazy initializer just falls back to null there, same trick the guest
-  // session helpers use).
-  const [onboarding] = useState<OnboardingAnswers | null>(() =>
-    readOnboardingAnswers(),
-  );
+  // it. Starts null (matching the server, which has no sessionStorage) and
+  // loads after mount instead of via a lazy initializer, so the client's
+  // first render doesn't disagree with the server-rendered HTML whenever
+  // onboarding answers exist - that kind of mismatch is what left the
+  // heading and project selection stuck in the wrong state.
+  const [onboarding, setOnboarding] = useState<OnboardingAnswers | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- deliberately deferred past the server-rendered first paint to avoid a hydration mismatch (see comment above)
+    setOnboarding(readOnboardingAnswers());
+  }, []);
   const stuckPoint = STUCK_POINTS.find(
     (p) => p.id === onboarding?.stuckPointId,
   );

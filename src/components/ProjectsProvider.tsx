@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { PROJECTS, type Project } from "@/data/app";
 
 /** No backend to persist connected projects, so they're stashed here across
@@ -43,9 +43,19 @@ export default function ProjectsProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [projects, setProjects] = useState<Project[]>(() =>
-    readStoredProjects(),
-  );
+  // Starts from the same empty PROJECTS the server rendered (localStorage
+  // isn't available there), then loads the persisted list right after mount.
+  // Reading localStorage in the initializer instead would make the client's
+  // first render disagree with the server-rendered HTML whenever a project
+  // was already saved - a hydration mismatch that can leave the page stuck
+  // showing neither state correctly (e.g. no sidebar selection at all).
+  const [projects, setProjects] = useState<Project[]>(PROJECTS);
+
+  useEffect(() => {
+    const stored = readStoredProjects();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- deliberately deferred past the server-rendered first paint to avoid a hydration mismatch (see comment above)
+    if (stored.length > 0) setProjects(stored);
+  }, []);
 
   const addProject: ProjectsContextValue["addProject"] = (project) => {
     const created: Project = {
