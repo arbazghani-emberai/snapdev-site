@@ -14,6 +14,7 @@ import {
 import GetUnstuckModal from "@/components/GetUnstuckModal";
 import ConnectProjectDrawer from "@/components/ConnectProjectDrawer";
 import ScheduleModal from "@/components/ScheduleModal";
+import SelectPlanModal from "@/components/SelectPlanModal";
 import { useProjects } from "@/components/ProjectsProvider";
 import { ENGINEERS, type Engineer } from "@/data/engineers";
 import type { Project } from "@/data/app";
@@ -258,6 +259,31 @@ export default function AppHome() {
     setUnstuckOpen(true);
   };
 
+  // Anyone who came through the signup wizard hasn't picked a plan yet -
+  // prompt for one the first time they act on an engineer (Get unstuck or
+  // Book a call), rather than blocking the page with it on arrival. The
+  // triggering click is stashed and replayed once they choose or skip.
+  const [planModalOpen, setPlanModalOpen] = useState(false);
+  const [planChosen, setPlanChosen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const needsPlanChoice = !!onboarding && !planChosen;
+
+  const withPlanGate = (action: () => void) => () => {
+    if (needsPlanChoice) {
+      setPendingAction(() => action);
+      setPlanModalOpen(true);
+    } else {
+      action();
+    }
+  };
+
+  const closePlanModal = () => {
+    setPlanModalOpen(false);
+    setPlanChosen(true);
+    pendingAction?.();
+    setPendingAction(null);
+  };
+
   return (
     <div className="pb-28">
       <div className="relative left-1/2 w-screen -translate-x-1/2 lg:flex lg:items-start">
@@ -343,8 +369,8 @@ export default function AppHome() {
               <EngineerCard
                 key={`${e.name}-${i}`}
                 engineer={e}
-                onGetUnstuck={() => openGetUnstuck(e)}
-                onBookCall={() => setBookEngineer(e)}
+                onGetUnstuck={withPlanGate(() => openGetUnstuck(e))}
+                onBookCall={withPlanGate(() => setBookEngineer(e))}
               />
             ))}
           </div>
@@ -364,7 +390,7 @@ export default function AppHome() {
             </span>
             <button
               type="button"
-              onClick={() => openGetUnstuck(topOnline)}
+              onClick={withPlanGate(() => openGetUnstuck(topOnline))}
               className="border-bg/25 text-bg hover:bg-bg/10 flex shrink-0 items-center gap-1.5 rounded-full border py-2 pr-3.5 pl-4 text-[13px] font-semibold transition"
             >
               Get unstuck
@@ -372,7 +398,7 @@ export default function AppHome() {
             </button>
             <button
               type="button"
-              onClick={() => setBookEngineer(topOnline)}
+              onClick={withPlanGate(() => setBookEngineer(topOnline))}
               className="bg-brand hover:bg-brand-ink text-bg shrink-0 rounded-full px-4 py-2 text-[13px] font-semibold transition"
             >
               Book a call
@@ -396,6 +422,7 @@ export default function AppHome() {
         open={connectOpen}
         onClose={() => setConnectOpen(false)}
       />
+      <SelectPlanModal open={planModalOpen} onClose={closePlanModal} />
     </div>
   );
 }
